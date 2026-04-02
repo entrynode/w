@@ -1,0 +1,22 @@
+{
+  "feed_title": "Mysite sucks",
+  "feed_url": "https://yoursite.com/feed.json",
+  "description": "Internal memos and signals intelligence intercepts.",
+  "pgp_signature": "-----BEGIN PGP PUBLIC KEY BLOCK-----xjMEac7DfxYJKwYBBAHaRw8BAQdAp6lER8GdkWzzkY8W4v42qdnTKe541+nqkGq8UDpoRBfNH0ZlZWQgQWRtaW4gPGFkbWluQHlvdXJzaXRlLmNvbT7CwBMEExYKAIUFgmnOw38DCwkHCRAPtZskimTtUkUUAAAAAAAcACBzYWx0QG5vdGF0aW9ucy5vcGVucGdwanMub3JnfFSG/zVYMh+00Tpy3F52AgXblFffBtlhSWa7I2f67RcFFQoIDgwEFgACAQIZAQKbAwIeARYhBCYOSKwcD0QagIQjSQ+1mySKZO1SAAAKUgD/e6t23Aa2wPUw+mqrOIkJHraI5621TzFVjb/69LZQepcBALCcyB2mrNtKz8lu0nKeRsUIAq1DQYs4hVYp3wvHyZEJzjgEac7DfxIKKwYBBAGXVQEFAQEHQNX7sXj8lUmqQdI0G2EnNLiGcxBR7UDEP91jVoJi3941AwEIB8K+BBgWCgBwBYJpzsN/CRAPtZskimTtUkUUAAAAAAAcACBzYWx0QG5vdGF0aW9ucy5vcGVucGdwanMub3Jnf8YTlwI0UZ49yXvd4JlldCLuWpjtpuNAbFbLKtfzwkcCmwwWIQQmDkisHA9EGoCEI0kPtZskimTtUgAA7CgBAJ6Ue5BrWh5idTJrXST14usrrgzsmVSUQEhXcmQ4gl81AP9TcE5e8AR5N3Oysl7o3Pm6BrHpIoYQHTewVEgWPFpTDQ===UKWF-----END PGP PUBLIC KEY BLOCK-----",
+  "items": [
+    {
+      "id": "002",
+      "title": "I lobbeee The Mooon",
+      "date": "2026-04-02",
+      "content": "I lobee the mooon",
+      "author": "Village idiot"
+    },
+    {
+      "id": "001",
+      "title": "Beebadoobee good Radiohead trash",
+      "date": "2026-04-01",
+      "content": "hheh",
+      "author": "Thome Yorke"
+    }
+  ]
+}
