@@ -14,7 +14,7 @@
       "id": "002",
       "title": "GPRP v1.2 has been released",
       "date": "2026-04-03",
-      "content": "We are officially publishing the GiliNet Organization and Architecture Guidelines. This document serves as our "North Star" for maintaining system integrity, scalability, and internal structural clarity as we continue to evolve. The following is the documentation for the guidelines. This document serves as the definitive legal and operational framework for the GiliNet PRISEC (Privacy and Security) division. It dictates the rules of engagement for security research, vulnerability hunting, and infrastructure modification. The policy discusses about prohibition of vulnerability hunts in highly litigated closed source systems, but instead to openly do vulnerability hunts and PRISEC related research in open-source systems.",
+      "content": "We are officially publishing the GiliNet Organization and Architecture Guidelines. This document serves as our North Star for maintaining system integrity, scalability, and internal structural clarity as we continue to evolve. The following is the documentation for the guidelines. This document serves as the definitive legal and operational framework for the GiliNet PRISEC (Privacy and Security) division. It dictates the rules of engagement for security research, vulnerability hunting, and infrastructure modification. The policy discusses about prohibition of vulnerability hunts in highly litigated closed source systems, but instead to openly do vulnerability hunts and PRISEC related research in open-source systems.",
       "author": "The Core"
     }, 
     {
