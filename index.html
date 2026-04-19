@@ -833,12 +833,7 @@ Object.defineProperty(window, 'net', {
                 const octets = ip.split('.');
                 if (octets.length === 4) {
                     const subnet = octets.slice(0, 3).join('.');
-                    gateways.add(`${subnet}.1`);   
-                    gateways.add(`${subnet}.254`); 
-                    gateways.add(`${subnet}.100`); 
-                }
-            }
-        });
+                     //it goes on
 
         const targetList = Array.from(gateways);
         const pingViaFetch = async (ip) => {
