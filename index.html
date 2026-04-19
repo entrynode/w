@@ -825,24 +825,7 @@ Object.defineProperty(window, 'net', {
             </ol>
             <p>once it has your subnet, it guesses where the router or other infrastructure might be by appending common suffixes: .1, .254, and .100. So, if your IP is 192.168.50.15, it automatically adds 192.168.50.1, 192.168.50.254, and 192.168.50.100 to its target list.</p>
             <p>but the script doesn't just ping the IPs(which JS usually can't do). it uses two "error-based" detection methods, in the first method it attempts a <code>fetch()</code> to the target IP with the <code>no-cors</code> mode. even though the browser blocks the script from reading the content of the router's login page (due to CORS), the script can still see <b>how</b> the request failed. and in the result, if it gets a "Connection Refused" error quickly, it knows a device is there. if it simply "Times Out," it assumes no device is at that IP. in the second method, as this is is a fallback, it is even more subtle. It creates a hidden <code><iframe></code> and points its <code>src</code> to the target IP on an obscure port (like <code>:31337</code>). it starts a timer using <code>performance.now()</code>. and in the detection, a live host will respond (even with an "Error: Reset" or "Refused") much faster than a non-existent host. if the <code>onerror</code> fires in under 1.4 seconds, the script flags that IP as <b>"ALIVE (Timing Bypass)."</b> by doing this, the script builds a map of the internal network without ever needing specialized permissions or complex pattern matching. It's essentially using the browser's own security errors as a radar.</p>
-            <pre>const gateways = new Set(['192.168.1.1', '192.168.0.1', '10.0.0.1']);
 
-
-        this.localInterfaces.forEach(ip => {
-            if (ip.includes('.') && !ip.endsWith('.local')) {
-                const octets = ip.split('.');
-                if (octets.length === 4) {
-                    const subnet = octets.slice(0, 3).join('.');
-                     //it goes on
-
-        const targetList = Array.from(gateways);
-        const pingViaFetch = async (ip) => {
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 1200); 
-
-            try {
-                const start = performance.now();
-                //and it goes on</pre>
              <p>then i added the other features like NAT topology identification feature, the a pretty powerful anti-analysis features like an <code>armOnMultiInteraction</code> method which ensured the payload doesn't fire in an automated sandbox (like VirusTotal or Joe Sandbox) as it required a stateful response human response of <code>mousemove</code>-><code>scroll</code>-><code>click</code>. then it verifies the <code>isTrusted</code> property on the click event to ensure it wasn't a programmatically generated click by a clanker. then it was the logic for the exfiltration of the data harvested to the fetcher or the dashboard which would be a site, and the thing i did made it extremely difficult to block the data transmission, as i used <code>Gun.js</code> database for the job, and because of this the whole thing would be decentralized, and instead of sending data to a central C2 server that can be easily blacklisted by DNS, it used a decentralized graph database. and before exfiltration, it uses the Web Crypto API to perform a hybrid encryption (RSA-OAEP for the key wrap and AES-GCM for the payload chunks). this ensured that even if the network traffic is captured, the data remained unreadable without the private key.</p>
              <p>but then i found that these techniques or at least the ones which leaked important stuff, could be mitigated in the modern web, so i made it a bit more robust, in which i added more newer and more subtle fallback features for several features which made the whole thing even more robust and difficult to mitigate, like i added the <code>WebGPU</code> fingerprinting as a fallback for WebGL, made the VPN detection a multi feature process where different ways where used to get the data for the VPN detection,as a step by step process and added a new <code>MTU</code> analysis feature with <code>WebTransport</code> which more difficult to catch.</p>
              <p>and with all these stuff, and 5 days of work, i created ColdStrain and ngl it was pretty sophisticated and effective for a web-based reconaissance tool....dw i didn't use it in this site, i really value privacy this was just a PoC for seeing how much of we could leak from a browser if we asked nicely.</p>`
