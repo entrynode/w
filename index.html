@@ -1248,6 +1248,77 @@ function decryptWithAssembly(element, finalHTML) {
     }, 280);
 
     }
+    // Define the nulsie console object
+Object.defineProperty(window, 'nulsie', {
+    get: function() {
+        return new Proxy({}, {
+            get: (target, prop) => {
+                if (prop === 'fetch') {
+                    // 1. Scrape System Data (Browser approximations)
+                    const ua = navigator.userAgent;
+                    const os = ua.includes("Win") ? "Windows" : 
+                               ua.includes("Mac") ? "MacOS" : 
+                               ua.includes("Linux") ? "Linux" : "Unknown OS";
+                    
+                    const browser = ua.includes("Firefox") ? "Firefox" : 
+                                    ua.includes("Chrome") ? "Chrome" : 
+                                    ua.includes("Safari") ? "Safari" : "Browser";
+                                    
+                    const res = `${window.screen.width}x${window.screen.height}`;
+                    const cores = navigator.hardwareConcurrency || 'Unknown';
+                    const ram = navigator.deviceMemory ? `~${navigator.deviceMemory} GB` : 'Unknown';
+                    const uptime = `${Math.floor(performance.now() / 1000)}s`;
+
+                    // 2. ASCII Art (Stylized 'N')
+                    const art = [
+                        " ███╗   ██╗ ",
+                        " ████╗  ██║ ",
+                        " ██╔██╗ ██║ ",
+                        " ██║╚██╗██║ ",
+                        " ██║ ╚████║ ",
+                        " ╚═╝  ╚═══╝ "
+                    ];
+
+                    // 3. Info Lines Setup (Label, Value, Label Color, Value Color)
+                    const info = [
+                        { l: "nulsie", v: `@${browser}`, c1: "#2ecc71", c2: "#e0e0e0" }, 
+                        { l: "----------------", v: "", c1: "#e0e0e0", c2: "" }, 
+                        { l: "OS", v: `: ${os}`, c1: "#3498db", c2: "#e0e0e0" },
+                        { l: "Host", v: `: ${window.location.hostname || 'localhost'}`, c1: "#3498db", c2: "#e0e0e0" },
+                        { l: "Resolution", v: `: ${res}`, c1: "#3498db", c2: "#e0e0e0" },
+                        { l: "CPU Cores", v: `: ${cores}`, c1: "#3498db", c2: "#e0e0e0" },
+                        { l: "Memory", v: `: ${ram}`, c1: "#3498db", c2: "#e0e0e0" },
+                        { l: "Uptime", v: `: ${uptime}`, c1: "#3498db", c2: "#e0e0e0" }
+                    ];
+
+                    console.clear();
+                    console.log("%c--- TERMINAL SESSION INITIATED ---", "color: #2ecc71; font-style: italic;");
+                    
+                    // 4. Render Side-by-Side
+                    const maxLines = Math.max(art.length, info.length);
+                    for (let i = 0; i < maxLines; i++) {
+                        // Pad the ASCII art so the info aligns perfectly
+                        const left = (art[i] || "            ").padEnd(12, " ");
+                        const rightInfo = info[i] || { l: "", v: "", c1: "", c2: "" };
+                        
+                        console.log(
+                            `%c${left}  %c${rightInfo.l}%c${rightInfo.v}`,
+                            "color: #2ecc71; font-weight: bold; font-family: monospace;",
+                            `color: ${rightInfo.c1}; font-weight: bold; font-family: monospace;`,
+                            `color: ${rightInfo.c2}; font-family: monospace;`
+                        );
+                    }
+                    
+                    return "--- sys.fetch complete ---";
+                }
+                
+                return `Command '${prop}' not found. Try typing: nulsie.fetch`;
+            }
+        });
+    },
+    configurable: true,
+    enumerable: false
+});
 </script>
 
 </body>
