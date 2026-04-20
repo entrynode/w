@@ -7,25 +7,34 @@
     <link rel="icon" type="image/png" href="favicon.png">
     <style>
         :root {
+    /* Dracula Backgrounds */
     --bg: #282a36;
     --card-bg: #44475a;
-    --accent-green: #50fa7b; 
-    --accent-blue: #bd93f9; 
+    --pre-bg: #21222c; 
+
+    /* Dracula Text */
     --text-main: #f8f8f2;
     --text-dim: #6272a4;
-    --border: #44475a;
+
+    /* Custom Dracula Red Accents */
+    --accent-red: #ff5555;      /* Replaces your main matrix green */
+    --accent-cyan: #8be9fd;     /* Replaces your accent blue */
+    --accent-yellow: #f1fa8c;   /* Good for warnings/status */
+    
+    /* Borders */
+    --border: #6272a4;
         }
 
         * { box-sizing: border-box; }
 
         body {
-            background-color: var(--bg);
-            color: var(--text-main);
-            font-family: 'Calibri', 'Candara', 'Segoe UI', sans-serif;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            line-height: 1.6;
+    background-color: var(--bg);
+    color: var(--text-main);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    line-height: 1.6;
         }
 
         .container {
@@ -44,13 +53,13 @@
 }
 
 .ticker {
-    background: #000;
+    background: var(--pre-bg);
     border: 1px solid var(--border);
     padding: 8px 10px;
     margin-bottom: 30px;
     font-family: monospace;
     font-size: 0.85rem;
-    color: var(--accent-green);
+    color: var(--accent-yellow);
     text-align: center;
 }
 .ticker-content { display: inline-block; }
@@ -58,18 +67,16 @@
         
 
         header {
-            border-left: 4px solid var(--accent-green);
-            padding-left: 20px;
-            margin-bottom: 40px;
+    border-left: 4px solid var(--accent-red);
+    padding-left: 20px;
+    margin-bottom: 40px;
         }
 
         h1 {
-            font-size: 2.2rem;
-            margin: 0;
-            letter-spacing: -1px;
-            background: linear-gradient(90deg, var(--accent-green), var(--accent-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+    font-size: 2.2rem;
+    margin: 0;
+    letter-spacing: -1px;
+    color: var(--accent-red); /* Removed the gradient for a solid IDE look */
         }
 
         .motto {
@@ -81,12 +88,12 @@
         section { margin-bottom: 50px; }
 
         h2 {
-            font-size: 1.2rem;
-            color: var(--accent-blue);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 10px;
+    font-size: 1.2rem;
+    color: var(--accent-cyan);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 10px;
         }
         
         
@@ -139,12 +146,12 @@
         
 
         .status-tag {
-            display: inline-block;
-            background: rgba(46, 204, 113, 0.1);
-            color: var(--accent-green);
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 0.8rem;
+    display: inline-block;
+    background: rgba(255, 85, 85, 0.1);
+    color: var(--accent-red);
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
         }
 
         footer {
@@ -164,10 +171,9 @@
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    border: 2px solid var(--accent-green);
+    border: 2px solid var(--accent-red);
     object-fit: cover;
     margin-bottom: 15px;
-    box-shadow: 0 0 10px rgba(46, 204, 113, 0.3);
      }
      /* --- Interactive Article Cards --- */
         .article-grid {
@@ -177,27 +183,22 @@
         }
 
         .article-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-left: 4px solid var(--accent-green);
-            border-radius: 6px;
-            padding: 20px;
-            position: relative;
-            overflow: hidden;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent-red);
+    border-radius: 6px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
         }
 
         .article-card:hover {
-            
-            border-color: var(--accent-green);
-            
-        }
+    border-color: var(--accent-red);
+}
 
-        .article-title {
-            color: var(--accent-blue);
-            font-size: 1.25rem;
-            margin: 0 0 10px 0;
-            font-weight: bold;
-        }
+.article-title, .file-name {
+    color: var(--accent-cyan);
+}
 
         .article-meta {
             font-size: 0.8rem;
@@ -228,34 +229,30 @@
             gap: 10px;
         }
 
-        .btn-interactive {
-            background: transparent;
-            border: 1px solid var(--accent-blue);
-            color: var(--accent-blue);
-            padding: 6px 14px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-family: monospace;
-            
-            text-decoration: none;
-            font-size: 0.85rem;
-        }
+        .btn-interactive, .back-btn {
+    background: transparent;
+    border: 1px solid var(--accent-cyan);
+    color: var(--accent-cyan);
+    padding: 6px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: monospace;
+    text-decoration: none;
+    font-size: 0.85rem;
+}
 
-        .btn-interactive:hover {
-            background: var(--accent-blue);
-            color: #fff;
-            box-shadow: 0 0 8px var(--accent-blue);
-        }
+.btn-interactive:hover, .back-btn:hover {
+    background: var(--accent-cyan);
+    color: var(--bg);
+}
 
-        .btn-read-full {
-            border-color: var(--accent-green);
-            color: var(--accent-green);
-        }
-
+.btn-read-full {
+    border-color: var(--accent-red);
+    color: var(--accent-red);
+}
         .btn-read-full:hover {
-            background: var(--accent-green);
-            color: #000;
-            box-shadow: 0 0 8px var(--accent-green);
+    background: var(--accent-red);
+    color: var(--bg);
         }
 
         .quick-read-content {
@@ -325,21 +322,20 @@
         
         code {
     font-family: monospace;
-    background-color: rgba(46, 204, 113, 0.15); /* Subtle green tint */
-    color: var(--accent-green); /* Keeps the neon glow */
+    background-color: var(--pre-bg); 
+    color: var(--accent-red); 
     padding: 2px 6px;
     border-radius: 4px;
-    border: 1px solid rgba(46, 204, 113, 0.3);
-    font-size: 0.9em; /* Slightly smaller to offset the padding */
+    border: 1px solid var(--border);
+    font-size: 0.9em;
     margin: 0 2px;
     vertical-align: middle;
     transition: all 0.2s ease;
-}
+        }
 
 code:hover {
-    background-color: var(--accent-green);
-    color: #000; /* Inverts for a "selected" look */
-    box-shadow: 0 0 8px var(--accent-green);
+    background-color: var(--accent-red);
+    color: var(--bg); 
 }
         .asm-scramble {
     font-family: monospace;
@@ -349,33 +345,30 @@ code:hover {
         }
         /* --- Preformatted Code Block Styles --- */
 pre {
-    background: #111315;
+    background: var(--pre-bg);
     border: 1px solid var(--border);
-    border-left: 3px solid var(--accent-blue);
+    border-left: 3px solid var(--accent-cyan);
     padding: 15px;
     border-radius: 6px;
-    overflow-x: auto; /* Enables horizontal scrolling for large snippets */
+    overflow-x: auto;
     color: var(--text-main);
     font-size: 0.9rem;
     line-height: 1.5;
-    white-space: pre; /* Keeps code formatting strictly intact */
+    white-space: pre;
     margin: 20px 0;
 }
 
 /* Custom scrollbar for the pre tags */
-pre::-webkit-scrollbar {
-    height: 8px;
-}
 pre::-webkit-scrollbar-track {
-    background: #18191c;
+    background: var(--bg);
     border-radius: 4px;
 }
 pre::-webkit-scrollbar-thumb {
-    background: #2c2f33;
+    background: var(--border);
     border-radius: 4px;
 }
 pre::-webkit-scrollbar-thumb:hover {
-    background: var(--accent-blue);
+    background: var(--accent-cyan);
 }
 
 
