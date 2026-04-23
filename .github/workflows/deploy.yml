@@ -1,0 +1,36 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: ["main"] # Or "master" depending on your default branch name
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Inject Timestamp
+        run: |
+          # Create a nice looking date (DD.MM.YYYY HH:MM:SS UTC)
+          TIMESTAMP=$(date -u +'%d.%m.%Y %H:%M:%S UTC')
+          # Replace the placeholder in index.html
+          sed -i "s/{{DEPLOY_TIMESTAMP}}/$TIMESTAMP/g" index.html
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.' # Upload the entire directory
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
