@@ -439,8 +439,32 @@ code:not([class*="language-"]) {
             
 <div class="container">
     <h2>Project Briefs</h2>
-    <ul id="project-brief-list" style="list-style: none; padding: 0; line-height: 1.8;">
-        </ul>
+    <ul id="project-brief-list" style="list-style-type: none; padding-left: 0;">
+    <li style="margin-bottom: 12px;">
+        <strong style="color: #A3BE8C;"><a href="https://github.com/nulsie/ColdStrain">ColdStrain</a></strong> — ColdStrain is an advanced, client-side JavaScript reconnaissance framework for red teaming. 
+        <span style="color: #81A1C1; font-size: 12px;">(JS / WebRTC)</span>
+    </li>
+    <li style="margin-bottom: 12px;">
+        <strong style="color: #A3BE8C;"><a href="https://github.com/nulsie/EtCAN">EtCAN</a></strong> — EtCAN is a decentralized, client-side, zero-knowledge, encrypted file transfer and steganography utility. 
+        <span style="color: #81A1C1; font-size: 12px;">(JS / IPFS)</span>
+    </li>
+    <li style="margin-bottom: 12px;">
+        <strong style="color: #A3BE8C;"><a href="https://github.com/nulsie/LycaClient">LycaClient</a></strong> — a lightweight, open-source web client for Bluesky designed to return control to the user. 
+        <span style="color: #81A1C1; font-size: 12px;">(Vanilla Web / ATProto)</span>
+    </li>
+    <li style="margin-bottom: 12px;">
+        <strong style="color: #A3BE8C;"><a href="https://github.com/nulsie/PIES">PIES</a></strong> — A local-first storage vault featuring AES-256 encryption and a 'Duress Passkey' for emergency data purging. 
+        <span style="color: #81A1C1; font-size: 12px;">(CryptoJS / LocalStorage)</span>
+    </li>
+    <li style="margin-bottom: 12px;">
+        <strong style="color: #A3BE8C;"><a href="https://github.com/nulsie/PIESImages">PIESImages</a></strong> — The image storage version of the PIES app. 
+        <span style="color: #81A1C1; font-size: 12px;">(CryptoJS / LocalStorage)</span>
+    </li>
+    <li style="margin-bottom: 12px;">
+        <strong style="color: #A3BE8C;"><a href="https://github.com/nulsie/TISH">TISH</a></strong> — A fully client-side, purely static threat intelligence dashboard. 
+        <span style="color: #81A1C1; font-size: 12px;">(MITRE ATT&CK / NVD)</span>
+    </li>
+    </ul>
         <p>there are some more but they're pretty old or are of minor importance.</p>
 </div>
 
@@ -1127,47 +1151,9 @@ document.getElementById('secret-trigger').addEventListener('click', () => {
 // PROJECT BRIEFS (Basic List)
 // ==========================================
 
-const projects = [
-    {
-        name: `<a href="https://github.com/nulsie/ColdStrain">ColdStrain</a>`,
-        details: "ColdStrain is an advanced, client-side JavaScript reconnaissance framework for red teaming.",
-        tech: "JS / CyberSec"
-    },
-    {
-        name: `<a href="https://github.com/nulsie/EtCAN">EtCAN</a>`,
-        details: "EtCAN is a decentralized, client-side, zero-knowledge, encrypted file transfer and steganography utility.",
-        tech: "JS / IPFS"
-    },
-    {
-        name: `<a href="https://github.com/nulsie/LycaClient">LycaClient</a>`,
-        details: "a lightweight, open-source web client for Bluesky designed to return control to the user.",
-        tech: "Vanilla Web / ATProto"
-    },
-    {
-        name: `<a href="https://github.com/nulsie/PIES">PIES</a>`,
-        details: "A local-first storage vault featuring AES-256 encryption and a 'Duress Passkey' for emergency data purging.",
-        tech: "CryptoJS / LocalStorage"
-    },
-    {
-        name: `<a href="https://github.com/nulsie/PIESImages">PIESImages</a>`, 
-        details: "The image storage version of the PIES app.",
-        tech: "CryptoJS / LocalStorage"
-    },
-    {
-        name: `<a href="https://github.com/nulsie/TISH">TISH</a>`, 
-        details: "A fully client-side, purely static threat intelligence dashboard.",
-        tech: "Vanilla Web"
-    },
-];
 
-const projectBriefUI = document.getElementById('project-brief-list');
 
-projects.forEach(p => {
-    const li = document.createElement('li');
-    li.style.marginBottom = "12px";
-    li.innerHTML = `<strong style="color: #A3BE8C;">${p.name}</strong> — ${p.details} <span style="color: #81A1C1; font-size: 12px;">(${p.tech})</span>`;
-    projectBriefUI.appendChild(li);
-});
+
  // Add to your existing <script> section
 function toggleDir(dirId, element) {
     const dir = document.getElementById(dirId);
