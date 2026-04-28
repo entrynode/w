@@ -215,13 +215,14 @@ code{
     overflow-x: auto;
 }
         
-        #ascii-tree {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
-            color: var(--text-color);
-            margin: 0;
-            line-height: 1.5;
-        }
+                #ascii-tree {
+            background: #242933;
+    border: 1px solid var(--button-border);
+    border-radius: 0; /* Changed from 4px to 0 for sharp corners */
+    padding: 15px;
+    margin: 0;
+    overflow-x: auto;
+                }
 
         #ascii-tree .folder {
             color: #81A1C1; /* Nord frost blue */
