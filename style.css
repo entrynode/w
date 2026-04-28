@@ -408,3 +408,27 @@ code:not([class*="language-"]) {
 .toggle-indicator::before {
     font-size: 14px; /* Matches your link font size */
 }
+/* Pure CSS Tree Toggle */
+.tree-checkbox {
+    display: none;
+}
+.tree-content {
+    display: none;
+}
+/* When the checkbox is checked, display the adjacent content span */
+.tree-checkbox:checked + label.toggle-btn + .tree-content {
+    display: inline;
+}
+/* Style the label to look like the old clickable span */
+label.toggle-btn {
+    cursor: pointer;
+    color: inherit;
+}
+/* Add the [+] by default */
+label.toggle-btn::before {
+    content: "[+] ";
+}
+/* Change to [-] when checked */
+.tree-checkbox:checked + label.toggle-btn::before {
+    content: "[-] ";
+}
