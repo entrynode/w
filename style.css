@@ -432,3 +432,12 @@ label.toggle-btn::before {
 .tree-checkbox:checked + label.toggle-btn::before {
     content: "[-] ";
 }
+/* Glowing Text Style */
+.glow-text {
+    color: #E5E9F0; /* Brighter off-white for the core */
+    text-shadow: 
+        0 0 5px rgba(136, 192, 208, 0.6),  /* Soft inner glow */
+        0 0 10px rgba(94, 129, 172, 0.4); /* Wider atmospheric glow */
+    font-weight: bold;
+    transition: text-shadow 0.3s ease-in-out;
+}
