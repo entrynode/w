@@ -1,0 +1,443 @@
+  :root {
+            --bg-color: #2E3440;      /* Dark slate background */
+            --text-color: #D8DEE9;    /* Soft grey-white text */
+            --heading-color: #E5E9F0; /* Off-white for contrast */
+            --button-bg: #434C5E;     /* Muted slate blue */
+            --button-border: #4C566A;  /* Darker grey-blue border */
+            --button-hover: #5E81AC;  /* Soft, non-purplish blue */
+            --link-color: #A3BE8C;
+            --odd: #0000DD;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'JetBrains Mono', monospace;
+            line-height: 1.6;
+            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            
+        }
+
+        
+        .header-banner {
+            height: 250px;
+            width: 100%;
+            background: url('https://iili.io/BsQPwuf.md.webp') no-repeat center center;
+            background-size: cover;
+            border-bottom: 2px solid var(--button-border); /* Added a subtle line since the fade is gone */
+        }
+
+        /* Main content container */
+.container {
+            max-width: 650px;
+            margin: 40px 0 40px 20px;
+        }
+
+        /* Typography */
+        h1, h2, h3 {
+            color: var(--heading-color);
+            font-weight: bold;
+            margin-bottom: 15px;
+            margin-top: 30px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-top: 0;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Custom UI Elements */
+        .fact-box, .counter-box {
+            display: flex;
+            align-items: left;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: var(--button-bg);
+            color: var(--text-color);
+            border: 1px solid var(--button-border);
+            padding: 5px 12px;
+            font-family: inherit;
+            font-size: 13px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: var(--button-hover);
+        }
+
+        /* 88x31 Button Grid */
+        .silly-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 20px;
+        }
+
+        .silly-buttons img {
+            width: 88px;
+            height: 31px;
+            image-rendering: pixelated; /* Keeps old web buttons crisp */
+            border: none;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px 20px;
+            font-size: 12px;
+            color: #D8DEE9;
+        }
+        /* Writings Section Styles */
+        .article-list {
+            list-style-type: none;
+            padding: 0;
+            margin-bottom: 30px;
+            color: #D8DEE9;
+        }
+        .article-list li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: baseline;
+            gap: 15px;
+            color: #D8DEE9;
+        }
+       /* Change the article links to the soft grey-white text color */
+/* This matches the purple hover effect in your project tree */
+.article-list a:hover {
+    color: #ff3333 !important; 
+    text-decoration: underline;
+}
+
+/* Optional: Keep a hover effect so users know it's clickable */
+.article-list a:hover {
+    color: #ff3333; /* Light blue on hover */
+    text-decoration: underline;
+}
+        
+        .date-badge {
+             /* A muted Nord blue */
+            font-size: 12px;
+            font-family: monospace;
+            color: #D8DEE9;
+        }
+        
+        /* Article Reading View */
+        .article-container {
+            color: var(--text-color);
+            background-color: var(--button-bg);
+            padding: 25px;
+            border: 1px solid var(--button-border);
+            border-radius: 6px;
+            margin-bottom: 30px;
+        }
+        .article-date {
+            
+            font-size: 13px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--button-border);
+            padding-bottom: 10px;
+        }
+        .article-content p {
+            margin-bottom: 15px;
+        }
+        .nav-btn {
+            background: transparent;
+            color: var(--text-color);
+            border: 1px solid var(--button-border);
+            padding: 6px 12px;
+            cursor: pointer;
+            font-family: inherit;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            transition: background 0.2s;
+        }
+        .nav-btn:hover {
+            background: var(--button-hover);
+            color: white;
+        }
+        /* Custom Code Box Styling */
+pre {
+    overflow-x: auto;
+    max-width: 100%;
+   
+    padding: 15px;
+    border-radius: 4px;
+    
+    margin: 20px;
+   
+    font-size: 13px;
+    border: 1px solid var(--button-border);
+}
+
+code{
+    font-family: 'JetBrains Mono', monospace !important;
+    text-shadow: none !important;
+}
+ /* ASCII Project Tree Styles */
+/* Updated ASCII Project Tree Styles */
+.terminal-box {
+    background: #242933;
+    border: 1px solid var(--button-border);
+    border-radius: 0; /* Changed from 4px to 0 for sharp corners */
+    padding: 15px;
+    margin-bottom: 30px;
+    overflow-x: auto;
+}
+        
+   #ascii-tree {
+    background: #242933;
+    border: 1px solid var(--button-border);
+    border-radius: 0; /* Changed from 4px to 0 for sharp corners */
+    padding: 15px;
+    margin: 0;
+    overflow-x: auto;
+                }
+
+        #ascii-tree .folder {
+            color: #81A1C1; /* Nord frost blue */
+            font-weight: bold;
+        }
+
+        #ascii-tree a {
+            color: #A3BE8C; /* Nord green for files */
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        #ascii-tree a:hover {
+            color: #ff3333; /* Purple highlight on hover */
+            text-decoration: underline;
+        }
+        
+        #ascii-tree .tree-line {
+            color: #4C566A; /* Muted tree branches */
+        }
+        /* The Shiver Effect */
+@keyframes shiver {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+.shiver {
+    display: inline-block; /* Required for transforms to work */
+    animation: shiver 0.2s infinite;
+    color: #5C9DFF; /* Optional: A soft Nord red to make it pop */
+}
+ /* The Secret Text Trick */
+
+
+/* This makes the text pop out when the user highlights it */
+
+ /* Add to your <style> block */
+.toggle-btn {
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.2s;
+}
+
+.toggle-btn:hover {
+    color: #E5E9F0; /* Brighter highlight on hover */
+}
+/* ASM Interactive Styling */
+/* ASM Interactive Styling - Blue to Red Shift */
+/* ASM - The "Breakpoint" Style */
+.asm-word {
+    color: #151b54; /* Nord Blue */
+    font-weight: bold;
+    cursor: crosshair;
+}
+
+.asm-word:hover {
+    color: #fff;
+    background-color: #2E3440; /* Nord Yellow highlight */
+}
+
+.asm-word::before { content: "asm"; }
+.asm-word:hover::before { content: "0x41534D"; } /* INT 3 / Breakpoint */
+
+/* Brainfuck - The "Memory Glitch" Style */
+.bf-word {
+    color: #ff0000; /* Nord Purple */
+    font-weight: bold;
+    cursor: help;
+}
+
+.bf-word:hover {
+    color: #ECEFF4;
+    background-color: #d1001f; /* Nord Red highlight */
+    text-transform: lowercase;
+}
+
+.bf-word::before { content: "brainfuck"; }
+.bf-word:hover::before { content: "[->+<]>"; } /* BF Pointer logic */
+
+.html-word {
+    color: #FF8C69;
+}
+.css-word {
+    color: #849AEF;
+    font-weight: bold;
+}
+.js-word {
+    color: #FFDE21;
+    font-weight: bold;
+}
+.dual-tone {
+    display: inline-flex;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* First half of the word */
+.dual-tone::before {
+    content: attr(data-first);
+    color: #FFD43B;
+    font-weight: bold;
+}
+
+/* Second half of the word */
+.dual-tone::after {
+    content: attr(data-second);
+    color: #1572B6; /* Nord Blue */
+}
+
+/* Global rule to ensure no animations if any exist elsewhere */
+.asm-word, .bf-word {
+    transition: none !important;
+}
+.bash {
+    
+    color: #00853F;
+}
+ /* New wrapper to hold everything */
+.layout-wrapper {
+    display: flex;
+    justify-content: flex-start; /* Keeps content left */
+    align-items: flex-start;
+    gap: 40px; /* Space between text and image */
+}
+
+ /* New sidebar group to handle vertical stacking */
+.sidebar-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Aligns button to the left side under the pic */
+    gap: 30px;               /* Space between the pic and the button */
+    margin-top: 40px;        /* Moves the top margin here for alignment */
+}
+
+/* Update your existing class to remove the top margin */
+.right-sidebar-img {
+    margin-top: 0;           /* Removed since parent now handles it */
+    max-width: 250px;
+    border-radius: 0;
+    box-shadow: 12px 12px 0px 0px #1a1e25;
+    background-color: var(--bg-color);
+}
+        
+code:not([class*="language-"]) {
+    background-color: #3B4252; 
+    color: #A3BE8C;           
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-size: 0.9em;
+}
+ /* Hide the default browser arrow */
+.more-articles-details summary::-webkit-details-marker {
+    display: none;
+}
+.more-articles-details summary {
+    list-style: none;
+}
+
+/* Set the indicator to [+] by default */
+.more-articles-details:not([open]) .toggle-indicator::before {
+    content: "[+] ";
+}
+
+/* Change the indicator to [-] when the details tag is open */
+.more-articles-details[open] .toggle-indicator::before {
+    content: "[-] ";
+}
+
+/* Hide the hardcoded text so only the CSS content shows */
+.toggle-indicator {
+    font-size: 0;
+}
+.toggle-indicator::before {
+    font-size: 14px; /* Matches your link font size */
+}
+/* Pure CSS Tree Toggle */
+.tree-checkbox {
+    display: none;
+}
+.tree-content {
+    display: none;
+}
+/* When the checkbox is checked, display the adjacent content span */
+.tree-checkbox:checked + label.toggle-btn + .tree-content {
+    display: inline;
+}
+/* Style the label to look like the old clickable span */
+label.toggle-btn {
+    cursor: pointer;
+    color: inherit;
+}
+/* Add the [+] by default */
+label.toggle-btn::before {
+    content: "[+] ";
+}
+/* Change to [-] when checked */
+.tree-checkbox:checked + label.toggle-btn::before {
+    content: "[-] ";
+}
+
+.glow-text {
+    color: #E5E9F0; /* Brighter off-white for the core */
+    text-shadow: 
+        0 0 5px rgba(136, 192, 208, 0.6),  /* Soft inner glow */
+        0 0 10px rgba(94, 129, 172, 0.4); /* Wider atmospheric glow */
+    font-weight: bold;
+    transition: text-shadow 0.3s ease-in-out;
+}
